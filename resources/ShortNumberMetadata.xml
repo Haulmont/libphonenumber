@@ -3547,7 +3547,7 @@
         <nationalNumberPattern>
           0(?:
             1[0-26]|
-            6[0-257]|
+          6[0-257]|
             8[058]|
             9[12]
           )|
@@ -3581,11 +3581,11 @@
           3[357]\d{3}|
           79[57]\d{3}|
           9(?:
-            0(?:
-              5[124578]|
-              7
-            )|
-            9[57]\d{3}
+          0(?:
+          5[124578]|
+          7
+          )|
+          9[57]\d{3}
           )
         </nationalNumberPattern>
         <possibleLengths national="[3-6]"/>
@@ -3596,7 +3596,7 @@
         <nationalNumberPattern>
           0(?:
             16|
-            6[57]|
+          6[57]|
             88
           )|
           1(?:
@@ -3637,10 +3637,10 @@
             [3-9]\d{3,4}
           )|
           9(?:
-            0(?:
-               5[124578]|
-               7
-            )|\d{4,5}
+          0(?:
+          5[124578]|
+          7
+          )|\d{4,5}
           )|
           [37]\d{4,5}
         </nationalNumberPattern>
@@ -4997,22 +4997,22 @@
       <shortCode>
         <nationalNumberPattern>
           1(?:
-            1(?:
-              2|
-              6(?:
-                00[06]|
-                1(?:
-                  1[17]|
-                  23
-                )
-              )|
-              8\d{2}?
+          1(?:
+          2|
+          6(?:
+          00[06]|
+          1(?:
+          1[17]|
+          23
+          )
+          )|
+          8\d{2}?
             )|
-            3977|
-            9(?:
-              [2-5]|
-              87
-            )
+          3977|
+          9(?:
+          [2-5]|
+          87
+          )
           )|
           9[34]
         </nationalNumberPattern>
@@ -5022,8 +5022,8 @@
       <tollFree>
         <nationalNumberPattern>
           1(?:
-            16\d{3}|
-            3977
+          16\d{3}|
+          3977
           )
         </nationalNumberPattern>
         <possibleLengths national="5,6"/>
@@ -5061,7 +5061,7 @@
       <expandedEmergency>
         <nationalNumberPattern>
           1(?:
-            16\d{3}|
+          16\d{3}|
             9(?:
               5|
               87
@@ -5406,38 +5406,38 @@
       <shortCode>
         <nationalNumberPattern>
           1(?:
-            0(?:
-              [01248]|
-              5(?:
-                010|
-                6|
-                902
-              )|
-              7(?:
-                [07]|
-                80
-              )|
-              9[0157]
-            )|
-            1(?:
-              [289]|
-              [67][0-2]\d{3}
-            )|
-            2(?:
-              1|
-              98
-            )|
-            39|
-            4[01]|
-            55[23]\d{2}|
-            7000|
-            9(?:
-              0[019]|
-              47|
-              50|
-              6[1347]|
-              [89]
-            )
+          0(?:
+          [01248]|
+          5(?:
+          010|
+          6|
+          902
+          )|
+          7(?:
+          [07]|
+          80
+          )|
+          9[0157]
+          )|
+          1(?:
+          [289]|
+          [67][0-2]\d{3}
+          )|
+          2(?:
+          1|
+          98
+          )|
+          39|
+          4[01]|
+          55[23]\d{2}|
+          7000|
+          9(?:
+          0[019]|
+          47|
+          50|
+          6[1347]|
+          [89]
+          )
           )|
           2611|
           5(?:
@@ -5489,18 +5489,18 @@
         <!-- https://support.twitter.com/articles/20170024 -->
         <nationalNumberPattern>
           1(?:
-            1(?:
-              [67][0-2]\d{3}|
-              [89]
-            )|
-            21|
-            4[01]|
-            55330|
-            7\d{3}|
-            9(?:
-              [89]|
-              09
-            )
+          1(?:
+          [67][0-2]\d{3}|
+          [89]
+          )|
+          21|
+          4[01]|
+          55330|
+          7\d{3}|
+          9(?:
+          [89]|
+          09
+          )
           )|
           53000
         </nationalNumberPattern>
@@ -5523,11 +5523,11 @@
       <expandedEmergency>
         <nationalNumberPattern>
           1(?:
-            0(?:
-              56|
-              9[01]
-            )|
-            55200
+          0(?:
+          56|
+          9[01]
+          )|
+          55200
           )
         </nationalNumberPattern>
         <possibleLengths national="4,6"/>
@@ -5536,8 +5536,8 @@
       <smsServices>
         <nationalNumberPattern>
           1(?:
-            39|
-            90[019]
+          39|
+          90[019]
           )|
           5(?:
             14(?:
@@ -6083,13 +6083,13 @@
         <nationalNumberPattern>
           1(?:
             0(?:
-              [07-9]|
+          [07-9]|
               1[12]|
               400
             )|
             1(?:
-              [02456]|
-              9[0-579]
+          [02456]|
+          9[0-579]
             )|
             2[123]|
             3[01]|
@@ -6139,18 +6139,18 @@
       <tollFree>
         <nationalNumberPattern>
           1(?:
-            1(?:
-              6|
-              9\d
-            )|
-            5(?:
-              01|
-              2[127]|
-              6(?:
-                29|
-                6[67]
+          1(?:
+          6|
+          9\d
+          )|
+          5(?:
+          01|
+          2[127]|
+          6(?:
+          29|
+          6[67]
               )
-            )
+          )
           )
         </nationalNumberPattern>
         <possibleNumberPattern>\d{4,5}</possibleNumberPattern>
@@ -6213,8 +6213,8 @@
       <expandedEmergency>
         <nationalNumberPattern>
           11(?:
-            [06]|
-            9\d
+          [06]|
+          9\d
           )
         </nationalNumberPattern>
         <possibleNumberPattern>\d{3,4}</possibleNumberPattern>
@@ -9030,23 +9030,23 @@
       <shortCode>
         <nationalNumberPattern>
           1(?:
-            1(?:
-              2|
-              6(?:
-                000|
-                111
-              )|
-              8(?:
-                300|
-                932
-              )
-            )|
-            [24]\d{2}|
-            9(?:
-              21|
-              3[02]|
-              5[178]
-            )
+          1(?:
+          2|
+          6(?:
+          000|
+          111
+          )|
+          8(?:
+          300|
+          932
+          )
+          )|
+          [24]\d{2}|
+          9(?:
+          21|
+          3[02]|
+          5[178]
+          )
           )|
           8[48]\d{2}
         </nationalNumberPattern>
@@ -9067,14 +9067,14 @@
       <premiumRate>
         <nationalNumberPattern>
           (?:
-            1(?:
-              18(?:
-                300|
-                932
-              )|
-              [24]\d{2}
-            )|
-            8[48]\d{2}
+          1(?:
+          18(?:
+          300|
+          932
+          )|
+          [24]\d{2}
+          )|
+          8[48]\d{2}
           )
         </nationalNumberPattern>
         <possibleNumberPattern>\d{4,6}</possibleNumberPattern>
@@ -9100,8 +9100,8 @@
       <smsServices>
         <nationalNumberPattern>
           (?:
-            1[24]|
-            8[48]
+          1[24]|
+          8[48]
           )\d{2}
         </nationalNumberPattern>
         <possibleNumberPattern>\d{4}</possibleNumberPattern>
@@ -10118,9 +10118,9 @@
       <shortCode>
         <nationalNumberPattern>
           1(?:
-            011|
-            1[078]|
-            7[127]
+          011|
+          1[078]|
+          7[127]
           )
         </nationalNumberPattern>
         <possibleLengths national="3,4"/>
@@ -10130,7 +10130,7 @@
         <nationalNumberPattern>
           1(?:
             1[78]|
-            7[127]
+          7[127]
           )
         </nationalNumberPattern>
         <possibleLengths national="3"/>
@@ -10139,8 +10139,8 @@
       <expandedEmergency>
         <nationalNumberPattern>
           1(?:
-            011|
-            10
+          011|
+          10
           )
         </nationalNumberPattern>
         <possibleNumberPattern>\d{3,4}</possibleNumberPattern>
@@ -11114,21 +11114,21 @@
       <shortCode>
         <nationalNumberPattern>
           1(?:
-            0(?:
-              1(?:
-                11|
-                77
-              )|
-              20
+          0(?:
+          1(?:
+          11|
+          77
+          )|
+          20
             )|
-            12|
-            3[24-7]|
-            77(?:
-              3[237]|
-              [45]7|
-              6[279]|
-              9[26]
-            )
+          12|
+          3[24-7]|
+          77(?:
+          3[237]|
+          [45]7|
+          6[279]|
+          9[26]
+          )
           )|
           37567|
           47751

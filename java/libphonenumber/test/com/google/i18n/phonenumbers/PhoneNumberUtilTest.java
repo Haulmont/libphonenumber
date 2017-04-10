@@ -136,21 +136,21 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
 
   public void testGetSupportedTypesForRegion() {
     assertTrue(phoneUtil.getSupportedTypesForRegion(RegionCode.BR)
-        .contains(PhoneNumberType.FIXED_LINE));
+            .contains(PhoneNumberType.FIXED_LINE));
     // Our test data has no mobile numbers for Brazil.
     assertFalse(phoneUtil.getSupportedTypesForRegion(RegionCode.BR)
-        .contains(PhoneNumberType.MOBILE));
+            .contains(PhoneNumberType.MOBILE));
     // UNKNOWN should never be returned.
     assertFalse(phoneUtil.getSupportedTypesForRegion(RegionCode.BR)
-        .contains(PhoneNumberType.UNKNOWN));
+            .contains(PhoneNumberType.UNKNOWN));
     // In the US, many numbers are classified as FIXED_LINE_OR_MOBILE; but we don't want to expose
     // this as a supported type, instead we say FIXED_LINE and MOBILE are both present.
     assertTrue(phoneUtil.getSupportedTypesForRegion(RegionCode.US)
-        .contains(PhoneNumberType.FIXED_LINE));
+            .contains(PhoneNumberType.FIXED_LINE));
     assertTrue(phoneUtil.getSupportedTypesForRegion(RegionCode.US)
-        .contains(PhoneNumberType.MOBILE));
+            .contains(PhoneNumberType.MOBILE));
     assertFalse(phoneUtil.getSupportedTypesForRegion(RegionCode.US)
-        .contains(PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            .contains(PhoneNumberType.FIXED_LINE_OR_MOBILE));
 
     // Test the invalid region code.
     assertEquals(0, phoneUtil.getSupportedTypesForRegion(RegionCode.ZZ).size());
@@ -381,10 +381,10 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     assertEquals(DE_NUMBER, phoneUtil.getExampleNumber(RegionCode.DE));
 
     assertEquals(
-        DE_NUMBER, phoneUtil.getExampleNumberForType(RegionCode.DE, PhoneNumberType.FIXED_LINE));
+            DE_NUMBER, phoneUtil.getExampleNumberForType(RegionCode.DE, PhoneNumberType.FIXED_LINE));
     // Should return the same response if asked for FIXED_LINE_OR_MOBILE too.
     assertEquals(DE_NUMBER,
-        phoneUtil.getExampleNumberForType(RegionCode.DE, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            phoneUtil.getExampleNumberForType(RegionCode.DE, PhoneNumberType.FIXED_LINE_OR_MOBILE));
     assertNotNull(phoneUtil.getExampleNumberForType(RegionCode.US, PhoneNumberType.FIXED_LINE));
     assertNotNull(phoneUtil.getExampleNumberForType(RegionCode.US, PhoneNumberType.MOBILE));
 
@@ -1165,7 +1165,7 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     PhoneNumber fixedLineAndMobileNumber = new PhoneNumber().
         setCountryCode(54).setNationalNumber(1987654321L);
     assertEquals(
-        PhoneNumberType.FIXED_LINE_OR_MOBILE, phoneUtil.getNumberType(fixedLineAndMobileNumber));
+            PhoneNumberType.FIXED_LINE_OR_MOBILE, phoneUtil.getNumberType(fixedLineAndMobileNumber));
   }
 
   public void testIsSharedCost() {
@@ -1444,14 +1444,14 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     assertEquals(ValidationResult.IS_POSSIBLE, phoneUtil.isPossibleNumberWithReason(US_NUMBER));
 
     assertEquals(
-        ValidationResult.IS_POSSIBLE, phoneUtil.isPossibleNumberWithReason(US_LOCAL_NUMBER));
+            ValidationResult.IS_POSSIBLE, phoneUtil.isPossibleNumberWithReason(US_LOCAL_NUMBER));
 
     assertEquals(ValidationResult.TOO_LONG, phoneUtil.isPossibleNumberWithReason(US_LONG_NUMBER));
 
     PhoneNumber number = new PhoneNumber();
     number.setCountryCode(0).setNationalNumber(2530000L);
     assertEquals(
-        ValidationResult.INVALID_COUNTRY_CODE, phoneUtil.isPossibleNumberWithReason(number));
+            ValidationResult.INVALID_COUNTRY_CODE, phoneUtil.isPossibleNumberWithReason(number));
 
     number.clear();
     number.setCountryCode(1).setNationalNumber(253000L);
@@ -1462,8 +1462,8 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     assertEquals(ValidationResult.IS_POSSIBLE, phoneUtil.isPossibleNumberWithReason(number));
 
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberWithReason(INTERNATIONAL_TOLL_FREE_TOO_LONG));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberWithReason(INTERNATIONAL_TOLL_FREE_TOO_LONG));
   }
 
   public void testIsPossibleNumberForTypeWithReason_DifferentTypeLengths() {
@@ -1472,74 +1472,74 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     number.setCountryCode(54).setNationalNumber(12345L);
     // Too short for any Argentinian number.
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
 
     // 6-digit numbers are okay for fixed-line.
     number.setNationalNumber(123456L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     // But too short for mobile.
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     // And too short for toll-free.
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
 
     // The same applies to 9-digit numbers.
     number.setNationalNumber(123456789L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
 
     // 10-digit numbers are universally possible.
     number.setNationalNumber(1234567890L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
 
     // 11-digit numbers are only possible for mobile numbers. Note we don't require the leading 9,
     // which all mobile numbers start with, and would be required for a valid mobile number.
     number.setNationalNumber(12345678901L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
   }
 
   public void testIsPossibleNumberForTypeWithReason_LocalOnly() {
@@ -1547,15 +1547,15 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // Here we test a number length which matches a local-only length.
     number.setCountryCode(49).setNationalNumber(12L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     // Mobile numbers must be 10 or 11 digits, and there are no local-only lengths.
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
   }
 
   public void testIsPossibleNumberForTypeWithReason_DataMissingForSizeReasons() {
@@ -1565,20 +1565,20 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // Local-only number.
     number.setCountryCode(55).setNationalNumber(12345678L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
 
     // Normal-length number.
     number.setNationalNumber(1234567890L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.UNKNOWN));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
   }
 
   public void testIsPossibleNumberForTypeWithReason_NumberTypeNotSupportedForRegion() {
@@ -1586,51 +1586,51 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // There are *no* mobile numbers for this region at all, so we return INVALID_LENGTH.
     number.setCountryCode(55).setNationalNumber(12345678L);
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     // This matches a fixed-line length though.
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
     // This is too short for fixed-line, and no mobile numbers exist.
     number.setCountryCode(55).setNationalNumber(1234567L);
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
 
     // This is too short for mobile, and no fixed-line numbers exist.
     number.setCountryCode(882).setNationalNumber(1234567L);
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
 
     // There are *no* fixed-line OR mobile numbers for this country calling code at all, so we
     // return INVALID_LENGTH.
     number.setCountryCode(979).setNationalNumber(123456789L);
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.INVALID_LENGTH,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.INVALID_LENGTH,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.PREMIUM_RATE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.PREMIUM_RATE));
   }
 
   public void testIsPossibleNumberForTypeWithReason_FixedLineOrMobile() {
@@ -1639,58 +1639,58 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // lengths for mobile *or* fixed-line numbers.
     number.setCountryCode(290).setNationalNumber(1234L);
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
 
     number.setNationalNumber(12345L);
     assertEquals(
-        ValidationResult.TOO_SHORT,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_SHORT,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     // This will change to INVALID_LENGTH once we start returning this type in the main
     // isPossibleNumberWithReason API.
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
 
     number.setNationalNumber(123456L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
 
     number.setNationalNumber(1234567L);
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.MOBILE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
 
     // 8-digit numbers are possible for toll-free and premium-rate numbers only.
     number.setNationalNumber(12345678L);
     assertEquals(
-        ValidationResult.IS_POSSIBLE,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
+            ValidationResult.IS_POSSIBLE,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.TOLL_FREE));
     assertEquals(
-        ValidationResult.TOO_LONG,
-        phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
+            ValidationResult.TOO_LONG,
+            phoneUtil.isPossibleNumberForTypeWithReason(number, PhoneNumberType.FIXED_LINE_OR_MOBILE));
   }
 
   public void testIsNotPossibleNumber() {
@@ -2773,16 +2773,16 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     PhoneNumber nzNumberTwo = new PhoneNumber();
     nzNumberOne.setCountryCode(64).setNationalNumber(33316005L).setItalianLeadingZero(true);
     nzNumberTwo.setCountryCode(64).setNationalNumber(33316005L).setItalianLeadingZero(true)
-        .setNumberOfLeadingZeros(2);
+            .setNumberOfLeadingZeros(2);
     assertEquals(PhoneNumberUtil.MatchType.SHORT_NSN_MATCH,
-                 phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
+            phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
 
     nzNumberOne.setItalianLeadingZero(false).setNumberOfLeadingZeros(1);
     nzNumberTwo.setItalianLeadingZero(true).setNumberOfLeadingZeros(1);
     // Since one doesn't have the "italian_leading_zero" set to true, we ignore the number of
     // leading zeros present (1 is in any case the default value).
     assertEquals(PhoneNumberUtil.MatchType.SHORT_NSN_MATCH,
-                 phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
+            phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
   }
 
   public void testIsNumberMatchAcceptsProtoDefaultsAsMatch() throws Exception {
@@ -2792,9 +2792,9 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // The default for number_of_leading_zeros is 1, so it shouldn't normally be set, however if it
     // is it should be considered equivalent.
     nzNumberTwo.setCountryCode(64).setNationalNumber(33316005L).setItalianLeadingZero(true)
-        .setNumberOfLeadingZeros(1);
+            .setNumberOfLeadingZeros(1);
     assertEquals(PhoneNumberUtil.MatchType.EXACT_MATCH,
-                 phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
+            phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
   }
 
   public void testIsNumberMatchMatchesDiffLeadingZerosIfItalianLeadingZeroFalse() throws Exception {
@@ -2805,13 +2805,13 @@ public class PhoneNumberUtilTest extends TestMetadataTestCase {
     // is it should be considered equivalent.
     nzNumberTwo.setCountryCode(64).setNationalNumber(33316005L).setNumberOfLeadingZeros(1);
     assertEquals(PhoneNumberUtil.MatchType.EXACT_MATCH,
-                 phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
+            phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
 
     // Even if it is set to ten, it is still equivalent because in both cases
     // italian_leading_zero is not true.
     nzNumberTwo.setNumberOfLeadingZeros(10);
     assertEquals(PhoneNumberUtil.MatchType.EXACT_MATCH,
-                 phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
+            phoneUtil.isNumberMatch(nzNumberOne, nzNumberTwo));
   }
 
   public void testIsNumberMatchIgnoresSomeFields() throws Exception {

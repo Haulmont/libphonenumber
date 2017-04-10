@@ -34,7 +34,7 @@ public class CountryCodeToRegionCodeMapForTesting {
     // The capacity is set to 36 as there are 27 different entries,
     // and this offers a load factor of roughly 0.75.
     Map<Integer, List<String>> countryCodeToRegionCodeMap =
-        new HashMap<Integer, List<String>>(36);
+            new HashMap<Integer, List<String>>(36);
 
     ArrayList<String> listWithRegionCode;
 

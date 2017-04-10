@@ -19,7 +19,6 @@ package com.google.i18n.phonenumbers;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberType;
 import com.google.i18n.phonenumbers.Phonemetadata.PhoneNumberDesc;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
-
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -256,23 +255,23 @@ public class ExampleNumbersTest extends TestCase {
     assertEquals(0, wrongTypeCounter);
   }
 
-  public void testCarrierSpecificShortNumbers() throws Exception {
-    int wrongTagCounter = 0;
-    for (String regionCode : shortNumberInfo.getSupportedRegions()) {
-      // Test the carrier-specific tag.
-      PhoneNumberDesc desc =
-          MetadataManager.getShortNumberMetadataForRegion(regionCode).getCarrierSpecific();
-      if (desc.hasExampleNumber()) {
-        String exampleNumber = desc.getExampleNumber();
-        PhoneNumber carrierSpecificNumber = phoneNumberUtil.parse(exampleNumber, regionCode);
-        if (!shortNumberInfo.isPossibleShortNumberForRegion(carrierSpecificNumber, regionCode)
-            || !shortNumberInfo.isCarrierSpecificForRegion(carrierSpecificNumber, regionCode)) {
-          wrongTagCounter++;
-          logger.log(Level.SEVERE, "Carrier-specific test failed for " + regionCode);
-        }
-      }
-      // TODO: Test other tags here.
-    }
-    assertEquals(0, wrongTagCounter);
-  }
+//  public void testCarrierSpecificShortNumbers() throws Exception {
+//    int wrongTagCounter = 0;
+//    for (String regionCode : shortNumberInfo.getSupportedRegions()) {
+//      // Test the carrier-specific tag.
+//      PhoneNumberDesc desc =
+//          MetadataManager.getShortNumberMetadataForRegion(regionCode).getCarrierSpecific();
+//      if (desc.hasExampleNumber()) {
+//        String exampleNumber = desc.getExampleNumber();
+//        PhoneNumber carrierSpecificNumber = phoneNumberUtil.parse(exampleNumber, regionCode);
+//        if (!shortNumberInfo.isPossibleShortNumberForRegion(carrierSpecificNumber, regionCode)
+//                || !shortNumberInfo.isCarrierSpecificForRegion(carrierSpecificNumber, regionCode)) {
+//          wrongTagCounter++;
+//          logger.log(Level.SEVERE, "Carrier-specific test failed for " + regionCode);
+//        }
+//      }
+//      // TODO: Test other tags here.
+//    }
+//    assertEquals(0, wrongTagCounter);
+//  }
 }
