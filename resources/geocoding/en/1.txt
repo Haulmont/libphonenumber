@@ -7590,6 +7590,7 @@
 1330971|Cuyahoga Falls, OH
 1330995|Aurora, OH
 1331|Illinois
+1332|New York, NY
 1334|Alabama
 1334209|Auburn, AL
 1334213|Montgomery, AL
@@ -16932,6 +16933,7 @@
 1563927|Manchester, IA
 1563928|Edgewood, IA
 1563933|Strawberry Point, IA
+1564|Washington State
 1567|Ohio
 1570|Pennsylvania
 1570207|Scranton, PA
@@ -25186,7 +25188,6 @@
 1734998|Ann Arbor, MI
 1737|Texas
 1740|Ohio
-1743|North Carolina
 1740223|Marion, OH
 1740246|Thornville, OH
 1740259|Lucasville, OH
@@ -25336,6 +25337,7 @@
 1740984|Beverly, OH
 1740992|Pomeroy, OH
 1740998|Frankfort, OH
+1743|North Carolina
 1747|California
 1754|Florida
 1757|Virginia
@@ -29512,6 +29514,7 @@
 1832826|Houston, TX
 1832912|Houston, TX
 1832934|Magnolia, TX
+1838|New York
 1843|South Carolina
 1843207|North Charleston, SC
 1843208|Hardeeville, SC
@@ -36128,6 +36131,7 @@
 1985892|Covington, LA
 1985893|Covington, LA
 1985898|Covington, LA
+1986|Idaho
 1989|Michigan
 1989224|St. Johns, MI
 1989227|St. Johns, MI
