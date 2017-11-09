@@ -89,7 +89,35 @@
           </signature>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <!--<configuration>-->
+          <!--<finalName>full-${artifactId}-${version}</finalName>-->
+        <!--</configuration>-->
+      </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.i18n.phonenumbers.tools</groupId>
+      <artifactId>common-build</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.i18n.phonenumbers.tools</groupId>
+      <artifactId>java-build</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 
 </project>

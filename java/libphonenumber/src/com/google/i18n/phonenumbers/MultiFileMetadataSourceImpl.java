@@ -17,6 +17,7 @@
 package com.google.i18n.phonenumbers;
 
 import com.google.i18n.phonenumbers.Phonemetadata.PhoneMetadata;
+
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -63,6 +64,10 @@ final class MultiFileMetadataSourceImpl implements MetadataSource {
   public PhoneMetadata getMetadataForRegion(String regionCode) {
     return MetadataManager.getMetadataFromMultiFilePrefix(regionCode, geographicalRegions,
         phoneNumberMetadataFilePrefix, metadataLoader);
+  }
+
+  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
+    MetadataManager.<String>loadDynamicMetadata(geographicalRegions, inputXmlFile);
   }
 
   @Override

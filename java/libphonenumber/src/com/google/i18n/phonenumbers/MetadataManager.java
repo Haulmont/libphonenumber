@@ -18,14 +18,11 @@ package com.google.i18n.phonenumbers;
 
 import com.google.i18n.phonenumbers.Phonemetadata.PhoneMetadata;
 import com.google.i18n.phonenumbers.Phonemetadata.PhoneMetadataCollection;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
@@ -94,6 +91,40 @@ final class MetadataManager {
 
   static Set<String> getSupportedShortNumberRegions() {
     return Collections.unmodifiableSet(shortNumberMetadataRegionCodes);
+  }
+
+  static void loadDynamicMetadata(AtomicReference<SingleFileMetadataMaps> ref, String inputXmlFile) throws DynamicMetadataException {
+    PhoneMetadataCollection metadataCollection;
+    try {
+      metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+    } catch (Exception e) {
+      throw new DynamicMetadataException("Invalid dynamic phone metadata: " + e.getMessage(), e);
+    }
+
+    Map<String, PhoneMetadata> regionCodeToMetadata = new HashMap<String, PhoneMetadata>();
+    Map<Integer, PhoneMetadata> countryCallingCodeToMetadata =
+            new HashMap<Integer, PhoneMetadata>();
+
+    for (PhoneMetadata metadata : metadataCollection.getMetadataList()) {
+      String regionCode = metadata.getId();
+      regionCodeToMetadata.put(regionCode, metadata);
+    }
+
+    SingleFileMetadataMaps maps = new SingleFileMetadataMaps(regionCodeToMetadata, countryCallingCodeToMetadata);
+    ref.compareAndSet(null, maps);
+  }
+
+  static <T> void loadDynamicMetadata(ConcurrentHashMap<T, PhoneMetadata> map, String inputXmlFile) throws DynamicMetadataException {
+    PhoneMetadataCollection metadataCollection;
+    try {
+      metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+    } catch (Exception e) {
+      throw new DynamicMetadataException("Invalid dynamic phone metadata: " + e.getMessage(), e);
+    }
+
+    for (PhoneMetadata metadata : metadataCollection.getMetadataList()) {
+      map.put((T)metadata.getId(), metadata);
+    }
   }
 
   /**

@@ -36,4 +36,11 @@ interface MetadataSource {
    * @return the phone metadata for that region, or null if there is none.
    */
   PhoneMetadata getMetadataForNonGeographicalRegion(int countryCallingCode);
+
+  /**
+   * Load xml configuration which dynamically prepared for changing of phone scheme
+   * @param inputXmlFile path to xml (based on tomcat\bin path)
+   * @throws DynamicMetadataException exception of reading of xml
+     */
+  void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException;
 }

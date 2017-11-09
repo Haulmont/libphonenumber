@@ -3492,4 +3492,13 @@ public class PhoneNumberUtil {
     }
     return metadata.isMobileNumberPortableRegion();
   }
+
+  /**
+   * Load xml configuration which dynamically prepared for changing of phone scheme
+   * @param inputXmlFile path to xml (based on tomcat\bin path)
+   * @throws DynamicMetadataException exception of reading of xml
+   */
+  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
+    metadataSource.loadDynamicMetadata(inputXmlFile);
+  }
 }

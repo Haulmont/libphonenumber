@@ -17,6 +17,7 @@
 package com.google.i18n.phonenumbers;
 
 import com.google.i18n.phonenumbers.Phonemetadata.PhoneMetadata;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -49,6 +50,11 @@ final class SingleFileMetadataSourceImpl implements MetadataSource {
   public PhoneMetadata getMetadataForRegion(String regionCode) {
     return MetadataManager.getSingleFileMetadataMaps(phoneNumberMetadataRef,
         phoneNumberMetadataFileName, metadataLoader).get(regionCode);
+  }
+
+  @Override
+  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
+    MetadataManager.loadDynamicMetadata(phoneNumberMetadataRef, inputXmlFile);
   }
 
   @Override
