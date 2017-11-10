@@ -6,12 +6,12 @@
   <parent>
     <artifactId>tools</artifactId>
     <groupId>com.google.i18n.phonenumbers</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
 
   <groupId>com.google.i18n.phonenumbers.tools</groupId>
   <artifactId>java-build</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>Libphonenumber Java and JavaScript build tools</name>
   <description>
     Java and JavaScript build tools that generate the Java and JavaScript metadata code needed to
