@@ -53,8 +53,8 @@ final class SingleFileMetadataSourceImpl implements MetadataSource {
   }
 
   @Override
-  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
-    MetadataManager.loadDynamicMetadata(phoneNumberMetadataRef, inputXmlFile);
+  public void loadDynamicMetadata(String inputXmlFile, byte[] metadataBytes) throws DynamicMetadataException {
+    MetadataManager.loadDynamicMetadata(phoneNumberMetadataRef, inputXmlFile, metadataBytes);
   }
 
   @Override

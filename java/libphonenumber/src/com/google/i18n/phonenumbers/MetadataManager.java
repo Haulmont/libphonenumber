@@ -93,10 +93,14 @@ final class MetadataManager {
     return Collections.unmodifiableSet(shortNumberMetadataRegionCodes);
   }
 
-  static void loadDynamicMetadata(AtomicReference<SingleFileMetadataMaps> ref, String inputXmlFile) throws DynamicMetadataException {
+  static void loadDynamicMetadata(AtomicReference<SingleFileMetadataMaps> ref, String inputXmlFile, byte[] metadataBytes) throws DynamicMetadataException {
     PhoneMetadataCollection metadataCollection;
     try {
-      metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+      if (inputXmlFile != null) {
+        metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+      } else {
+        metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(metadataBytes, false, false);
+      }
     } catch (Exception e) {
       throw new DynamicMetadataException("Invalid dynamic phone metadata: " + e.getMessage(), e);
     }
@@ -114,10 +118,14 @@ final class MetadataManager {
     ref.compareAndSet(null, maps);
   }
 
-  static <T> void loadDynamicMetadata(ConcurrentHashMap<T, PhoneMetadata> map, String inputXmlFile) throws DynamicMetadataException {
+  static <T> void loadDynamicMetadata(ConcurrentHashMap<T, PhoneMetadata> map, String inputXmlFile, byte[] metadataBytes) throws DynamicMetadataException {
     PhoneMetadataCollection metadataCollection;
     try {
-      metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+      if (inputXmlFile != null) {
+        metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+      } else {
+        metadataCollection = BuildMetadataFromXml.buildPhoneMetadataCollection(metadataBytes, false, false);
+      }
     } catch (Exception e) {
       throw new DynamicMetadataException("Invalid dynamic phone metadata: " + e.getMessage(), e);
     }

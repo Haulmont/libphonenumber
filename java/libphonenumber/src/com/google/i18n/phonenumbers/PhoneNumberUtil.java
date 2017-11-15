@@ -3499,6 +3499,15 @@ public class PhoneNumberUtil {
    * @throws DynamicMetadataException exception of reading of xml
    */
   public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
-    metadataSource.loadDynamicMetadata(inputXmlFile);
+    metadataSource.loadDynamicMetadata(inputXmlFile, null);
+  }
+
+  /**
+   * Load xml configuration which dynamically prepared for changing of phone scheme
+   * @param metadata byte array from metadata xml
+   * @throws DynamicMetadataException exception of reading of xml
+   */
+  public void loadDynamicMetadata(byte[] metadata) throws DynamicMetadataException {
+    metadataSource.loadDynamicMetadata(null, metadata);
   }
 }

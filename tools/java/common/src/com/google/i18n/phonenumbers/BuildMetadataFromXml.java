@@ -26,6 +26,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.*;
 import java.util.logging.Level;
@@ -99,6 +100,25 @@ public class BuildMetadataFromXml {
     boolean isAlternateFormatsMetadata = inputXmlFile.contains("PhoneNumberAlternateFormats");
     return buildPhoneMetadataCollection(document, liteBuild, specialBuild,
         isShortNumberMetadata, isAlternateFormatsMetadata);
+  }
+
+  // Build the PhoneMetadataCollection from the byte array.
+  public static PhoneMetadataCollection buildPhoneMetadataCollection(byte[] bytes,
+                                                                     boolean liteBuild, boolean specialBuild) throws Exception {
+    DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder = builderFactory.newDocumentBuilder();
+
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+    try {
+      Document document = builder.parse(inputStream);
+
+      boolean isShortNumberMetadata = false;
+      boolean isAlternateFormatsMetadata = false;
+      return buildPhoneMetadataCollection(document, liteBuild, specialBuild,
+              isShortNumberMetadata, isAlternateFormatsMetadata);
+    } finally {
+      inputStream.close();
+    }
   }
 
   // @VisibleForTesting

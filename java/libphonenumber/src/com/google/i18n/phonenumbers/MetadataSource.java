@@ -40,7 +40,8 @@ interface MetadataSource {
   /**
    * Load xml configuration which dynamically prepared for changing of phone scheme
    * @param inputXmlFile path to xml (based on tomcat\bin path)
+   * @param metadataBytes byte array from xml
    * @throws DynamicMetadataException exception of reading of xml
      */
-  void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException;
+  void loadDynamicMetadata(String inputXmlFile, byte[] metadataBytes) throws DynamicMetadataException;
 }

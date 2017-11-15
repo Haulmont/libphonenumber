@@ -66,8 +66,8 @@ final class MultiFileMetadataSourceImpl implements MetadataSource {
         phoneNumberMetadataFilePrefix, metadataLoader);
   }
 
-  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
-    MetadataManager.<String>loadDynamicMetadata(geographicalRegions, inputXmlFile);
+  public void loadDynamicMetadata(String inputXmlFile, byte[] metadataBytes) throws DynamicMetadataException {
+    MetadataManager.<String>loadDynamicMetadata(geographicalRegions, inputXmlFile, metadataBytes);
   }
 
   @Override
