@@ -15,7 +15,7 @@
   <macrodef name="closure-compile">
     <attribute name="inputfile" />
     <attribute name="outputfile" />
-    <attribute name="compilationlevel" default="ADVANCED_OPTIMIZATIONS" />
+    <attribute name="compilationlevel" default="SIMPLE_OPTIMIZATIONS" />
     <attribute name="outputmode" default="compiled" />
     <attribute name="outputwrapper" default="(function(){%output%})();" />
     <element name="extraflags" optional="yes" />
@@ -43,7 +43,6 @@
         <arg line='-f "--jscomp_error=duplicateMessage"' />
         <arg line='-f "--jscomp_error=es5Strict"' />
         <arg line='-f "--jscomp_error=externsValidation"' />
-        <arg line='-f "--jscomp_error=extraRequire"' />
         <arg line='-f "--jscomp_error=fileoverviewTags"' />
         <arg line='-f "--jscomp_error=globalThis"' />
         <arg line='-f "--jscomp_error=internetExplorerChecks"' />
@@ -95,12 +94,24 @@
 
   <target name="clean" description="deletes all generated files">
     <delete file="i18n/phonenumbers/demo-compiled.js" />
+    <delete file="i18n/phonenumbers/libphonenumber.js" />
   </target>
 
   <target name="compile-demo"
           description="generates demo-compiled.js">
     <closure-compile inputfile="i18n/phonenumbers/demo.js"
                      outputfile="i18n/phonenumbers/demo-compiled.js">
+      <extraflags>
+        <arg line='-p "i18n/phonenumbers"' />
+        <arg line='-e "i18n/phonenumbers/metadatafortesting.js"' />
+        <arg line='-e "i18n/phonenumbers/metadatalite.js"' />
+        <arg line='-e "i18n/phonenumbers/regioncodefortesting.js"' />
+      </extraflags>
+    </closure-compile>
+  </target>
+
+  <target name="compile-lib" description="generates libphonenumber.js">
+    <closure-compile inputfile="i18n/phonenumbers/lib.js" outputfile="i18n/phonenumbers/libphonenumber.js">
       <extraflags>
         <arg line='-p "i18n/phonenumbers"' />
         <arg line='-e "i18n/phonenumbers/metadatafortesting.js"' />

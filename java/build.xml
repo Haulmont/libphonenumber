@@ -17,7 +17,7 @@
   <property name="resources.dir" value="../resources"/>
   <property name="javascript.dir" value="../javascript"/>
   <property name="build.tools.jar"
-      value="../tools/java/java-build/target/java-build-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+      value="../tools/java/java-build/target/java-build-1.0-jar-with-dependencies.jar"/>
   <property environment="env"/>
 
   <path id="classpath">
