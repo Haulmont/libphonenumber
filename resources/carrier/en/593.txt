@@ -14,6 +14,7 @@
 
 # Source: IR.21 docs of individual carriers.
 # Conecel goes by the brand name of Claro.
+# Otecel goes by the brand name Movistar.
 
 593939|Claro
 5939586|Movistar
@@ -28,6 +29,12 @@
 5939622|CNT
 5939623|CNT
 5939624|CNT
+5939625|Movistar
+5939626|Movistar
+5939627|Movistar
+5939628|Movistar
+5939629|Movistar
+5939630|Movistar
 593967|Claro
 593968|Claro
 593969|Claro
