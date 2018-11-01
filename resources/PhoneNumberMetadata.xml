@@ -8280,15 +8280,9 @@
       </premiumRate>
       <sharedCost>
         <possibleLengths national="9"/>
-        <exampleNumber>810123456</exampleNumber>
-        <!-- Prefix 812 was added from a user report. -->
+        <exampleNumber>884012345</exampleNumber>
         <nationalNumberPattern>
-          8(?:
-          1[0-29]|
-            2[0156]|
-            84|
-            90
-          )\d{6}
+          884\d{6}
         </nationalNumberPattern>
       </sharedCost>
       <!-- 087 numbers used to be used for this. -->
