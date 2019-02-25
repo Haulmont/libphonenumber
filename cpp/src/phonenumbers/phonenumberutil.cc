@@ -14,9 +14,9 @@
 
 #include "phonenumbers/phonenumberutil.h"
 
-#include <string.h>
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 #include <iterator>
 #include <map>
 #include <utility>
@@ -227,7 +227,7 @@ string CreateExtnPattern(const string& single_extn_symbols) {
           "[:\\.．]?[  \\t,-]*", capturing_extn_digits, "#?|" */
       "[ \xC2\xA0\\t,]*(?:e?xt(?:ensi(?:o\xCC\x81?|\xC3\xB3))?n?|"
       "(?:\xEF\xBD\x85)?\xEF\xBD\x98\xEF\xBD\x94(?:\xEF\xBD\x8E)?|"
-      "[", single_extn_symbols, "]|int|"
+      "\xD0\xB4\xD0\xBE\xD0\xB1|[", single_extn_symbols, "]|int|"
       "\xEF\xBD\x89\xEF\xBD\x8E\xEF\xBD\x94|anexo)"
       "[:\\.\xEF\xBC\x8E]?[ \xC2\xA0\\t,-]*", capturing_extn_digits,
       "#?|[- ]+([", kDigits, "]{1,5})#"));
@@ -1426,8 +1426,14 @@ void PhoneNumberUtil::FormatInOriginalFormat(const PhoneNumber& number,
       // We assume that the first-group symbol will never be _before_ the
       // national prefix.
       if (!candidate_national_prefix_rule.empty()) {
-        candidate_national_prefix_rule.erase(
-            candidate_national_prefix_rule.find("$1"));
+        size_t index_of_first_group = candidate_national_prefix_rule.find("$1");
+        if (index_of_first_group == string::npos) {
+          LOG(ERROR) << "First group missing in national prefix rule: "
+              << candidate_national_prefix_rule;
+          Format(number, NATIONAL, formatted_number);
+          break;
+        }
+        candidate_national_prefix_rule.erase(index_of_first_group);
         NormalizeDigitsOnly(&candidate_national_prefix_rule);
       }
       if (candidate_national_prefix_rule.empty()) {
