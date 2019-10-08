@@ -1,3 +1,99 @@
+Oct 02, 2019: v8.10.20
+Metadata changes:
+ - Updated phone metadata for region code(s):
+   AU, BO, CC, CX, DM, GM, HN, PH, US
+ - New geocoding data for country calling code(s): 1341 (en)
+ - Updated carrier data for country calling code(s): 220 (en)
+ - Updated / refreshed time zone meta data.
+
+Sep 17, 2019: v8.10.19
+Metadata changes:
+ - Updated phone metadata for region code(s): EH, GE, GR, HU, IL, IR, MA, US
+ - Updated short number metadata for region code(s): ET
+ - New geocoding data for country calling code(s): 1689 (en)
+ - Updated carrier data for country calling code(s): 31 (en), 995 (en)
+ - Updated / refreshed time zone meta data.
+
+Sep 03, 2019: v8.10.18
+Metadata changes:
+ - Updated phone metadata for region code(s): BR, HU, KG, KR, MV, SG, VN
+ - Updated short number metadata for region code(s): BR, IL
+ - Updated carrier data for country calling code(s): 65 (en), 996 (en)
+
+Aug 15, 2019: v8.10.17
+Metadata changes:
+ - MX numbering authority has changed dialling patterns to be more
+   uniform i.e additional domestic (01 and 044) and international
+   mobile tokens (1) are abolished now. The parsing and formatting
+   changes were done as part of this release. We recommend to
+   follow the steps mentioned in our announcement for same:
+   https://groups.google.com/forum/#!topic/libphonenumber-discuss/pecTIo_HpVE
+ - Updated phone metadata for region code(s): AM, MM, MX
+ - Updated short number metadata for region code(s): TH
+ - Updated carrier data for country calling code(s):
+   86 (en, zh, zh_Hant), 95 (en), 374 (en, ru)
+For users who depend on JavaScript port:
+ - Please patch in PR #2380 to fix AYTF output that otherwise
+   swallows the entered old mobile token (1) at the last step.
+Code changes:
+ - AsYouTypeFormatter changed to ensure that the output never adds new digits or swallows digits.
+ - MX mobile token no longer returned by getCountryMobileToken
+
+Aug 01, 2019: v8.10.16
+Metadata changes:
+ - Updated alternate formatting data for country calling code(s): 676
+ - Updated phone metadata for region code(s):
+   AU, CC, CL, CX, GB, IL, KW, MK, NE, TJ, TT, TW, VI
+ - Updated carrier data for country calling code(s):
+   56 (en), 61 (en), 65 (en), 227 (en), 972 (en), 992 (en), 1868 (en)
+
+Jul 15, 2019: v8.10.15
+Metadata changes:
+ - Updated alternate formatting data for country calling code(s): 676
+ - Updated phone metadata for region code(s):
+   AM, BG, EH, IR, IT, MA, MM, MT, SL, TO, UG, VA, VN
+ - New geocoding data for country calling code(s): 676 (en)
+ - Updated geocoding data for country calling code(s):
+   95 (en), 212 (en, fr), 232 (en), 374 (en, hy, ru)
+ - Updated carrier data for country calling code(s):
+   95 (en), 212 (en), 232 (en), 256 (en), 356 (en)
+
+Jun 13, 2019: v8.10.14
+Metadata changes:
+ - Updated phone metadata for region code(s):
+   BF, BJ, BR, IM, KE, KZ, MN, MX, PH, RE, VN
+ - Updated short number metadata for region code(s): FR
+ - Updated geocoding data for country calling code(s): 55 (en)
+ - Updated carrier data for country calling code(s):
+   7 (en, ru), 44 (en), 63 (en), 226 (en), 229 (en), 254 (en), 262 (en),
+   976 (en)
+
+May 29, 2019: v8.10.13
+Metadata changes:
+ - Updated phone metadata for region code(s): AU, CC, CI, CX, DE, HK
+ - Updated carrier data for country calling code(s): 61 (en), 225 (en)
+
+May 10, 2019: v8.10.12
+Metadata changes:
+ - Updated phone metadata for region code(s): CL, HK, MU, NE
+ - Updated carrier data for country calling code(s): 230 (en)
+
+Apr 30, 2019: v8.10.11
+Metadata changes:
+ - Updated phone metadata for region code(s): CU, EH, MA
+ - Updated short number metadata for region code(s): CU
+ - Updated geocoding data for country calling code(s): 53 (en)
+
+Apr 15, 2019: v8.10.10
+Metadata changes:
+ - Updated phone metadata for region code(s):
+   BW, CL, DE, ET, IN, NG, PF, TW, VN
+ - Updated short number metadata for region code(s): KI
+ - Updated geocoding data for country calling code(s):
+   251 (en), 267 (en), 886 (en, zh, zh_Hant)
+ - Updated carrier data for country calling code(s): 234 (en), 689 (en)
+ - Updated / refreshed time zone meta data.
+
 Apr 02, 2019: v8.10.9
 Metadata changes:
  - Updated alternate formatting data for country calling code(s): 380, 44, 49
@@ -1661,7 +1757,7 @@ Oct 10, 2012: libphonenumber-5.2
  - Adds isNumberGeographical() method.
  - Adds getRegionCodesForCountryCode() method.
  - Fixing issue with getSupportedGlobalNetworkCallingCodes()
-   [https://github.com/googlei18n/libphonenumber/issues/202]
+   [https://github.com/google/libphonenumber/issues/202]
  - Ensures that returned collections are unmodifiable where necessary
    [there is a very slight risk that this may break existing users who were relying on being able
    to modify these collections, but doing so would be breaking lots of other assumptions that this

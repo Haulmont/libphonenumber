@@ -1648,7 +1648,7 @@
     <!-- http://www.anatel.gov.br/Portal/exibirPortalPaginaEspecial.do?codItemCanal=746&codCanal=277 -->
     <territory id="BR">
       <generalDesc>
-        <nationalNumberPattern>[124-69]\d{2,5}</nationalNumberPattern>
+        <nationalNumberPattern>[1-69]\d{2,5}</nationalNumberPattern>
       </generalDesc>
       <shortCode>
         <possibleLengths national="[3-6]"/>
@@ -1697,6 +1697,10 @@
             )|
             85959?
           )|
+          (?:
+            32|
+            91
+          )1|
           4(?:
             0404?|
             57|
@@ -1707,7 +1711,6 @@
             0\d{4}|
             10000
           )|
-          911|
           (?:
             133|
             411
@@ -1740,7 +1743,8 @@
         <exampleNumber>102</exampleNumber>
         <nationalNumberPattern>
           102|
-          273\d\d
+          273\d\d|
+          321
         </nationalNumberPattern>
       </standardRate>
       <!-- https://support.twitter.com/articles/20170024 -->
@@ -1797,10 +1801,11 @@
       <!-- Added short codes 28595, 285959 and 4828 after a report that it is used for SMS
            services. We can't find range-related information, despite emailing Anatel. -->
       <smsServices>
-        <possibleLengths national="[4-6]"/>
-        <exampleNumber>4820</exampleNumber>
+        <possibleLengths national="[3-6]"/>
+        <exampleNumber>321</exampleNumber>
         <nationalNumberPattern>
           285\d{2,3}|
+          321|
           40404|
           (?:
             27[38]\d|
@@ -3062,35 +3067,53 @@
     <territory id="CU">
       <generalDesc>
         <nationalNumberPattern>
-          1\d\d(?:
-            \d{3}
+          [12]\d\d(?:
+            \d{3,4}
           )?
         </nationalNumberPattern>
       </generalDesc>
       <shortCode>
-        <possibleLengths national="3,6"/>
+        <possibleLengths national="3,6,7"/>
         <exampleNumber>104</exampleNumber>
         <nationalNumberPattern>
           1(?:
-            0[4-6]|
+            0[4-7]|
             1(?:
               6111|
               8
             )|
             40
-          )
+          )|
+          2045252
         </nationalNumberPattern>
       </shortCode>
       <tollFree>
-        <possibleLengths national="3"/>
+        <possibleLengths national="3,6,7"/>
         <exampleNumber>104</exampleNumber>
-        <nationalNumberPattern>10[4-6]</nationalNumberPattern>
+        <nationalNumberPattern>
+          10[4-7]|
+          (?:
+            116|
+            204\d
+          )\d{3}
+        </nationalNumberPattern>
       </tollFree>
       <emergency>
         <possibleLengths national="3"/>
         <exampleNumber>104</exampleNumber>
         <nationalNumberPattern>10[4-6]</nationalNumberPattern>
       </emergency>
+      <expandedEmergency>
+        <possibleLengths national="3,6,7"/>
+        <exampleNumber>107</exampleNumber>
+        <nationalNumberPattern>
+          107|
+          (?:
+            116|
+            204\d
+          )\d{3}
+        </nationalNumberPattern>
+      </expandedEmergency>
     </territory>
 
     <!-- Cape Verde (CV) -->
@@ -4347,8 +4370,11 @@
         <exampleNumber>91</exampleNumber>
         <nationalNumberPattern>
           9(?:
+            07|
             11?|
-            [23]|
+            2|
+            39?|
+            45|
             9[17]
           )
         </nationalNumberPattern>
@@ -4359,7 +4385,8 @@
         <nationalNumberPattern>
           9(?:
             11?|
-            [23]|
+            2|
+            39?|
             9[17]
           )
         </nationalNumberPattern>
@@ -4375,11 +4402,22 @@
         <nationalNumberPattern>
           9(?:
             11?|
-            [23]|
+            2|
+            39?|
             9[17]
           )
         </nationalNumberPattern>
       </emergency>
+      <expandedEmergency>
+        <possibleLengths national="3"/>
+        <exampleNumber>907</exampleNumber>
+        <nationalNumberPattern>
+          9(?:
+            07|
+            45
+          )
+        </nationalNumberPattern>
+      </expandedEmergency>
     </territory>
 
     <!-- Finland (FI) -->
@@ -4637,7 +4675,7 @@
           1(?:
             0(?:
               07|
-              13
+              [13]3
             )|
             1[02459]|
             [578]|
@@ -4660,7 +4698,7 @@
         <exampleNumber>611</exampleNumber>
         <nationalNumberPattern>
           10(?:
-            [13]4|
+            [134]4|
             2[23]|
             99
           )|
@@ -6157,23 +6195,25 @@
     <!-- http://en.wikipedia.org/wiki/%2B972 -->
     <territory id="IL">
       <generalDesc>
-        <nationalNumberPattern>1\d{2,4}</nationalNumberPattern>
+        <nationalNumberPattern>[12]\d{2,4}</nationalNumberPattern>
       </generalDesc>
       <shortCode>
         <possibleLengths national="[3-5]"/>
         <exampleNumber>100</exampleNumber>
         <nationalNumberPattern>
           1(?:
-            0(?:
-              [0-2]|
-              400
-            )|
+            0[0-2]|
             1(?:
               [013-9]\d|
               2
             )|
             [2-9]\d\d
-          )
+          )|
+          2407|
+          (?:
+            104|
+            27
+          )00
         </nationalNumberPattern>
       </shortCode>
       <tollFree>
@@ -7559,7 +7599,7 @@
     <!-- http://tskl.net.ki/services has others. -->
     <territory id="KI">
       <generalDesc>
-        <nationalNumberPattern>[179]\d{2,3}</nationalNumberPattern>
+        <nationalNumberPattern>[17]\d{2,3}</nationalNumberPattern>
       </generalDesc>
       <!-- http://tskl.net.ki/services/3g-4g-rates-offpeaks/quick-dial-credit-checking-codes/
            lists 777 as voicemail access. -->
@@ -7573,17 +7613,13 @@
             9[2-5]
           )|
           777|
-          99[2-49]|
           10[0-8]
         </nationalNumberPattern>
       </shortCode>
       <tollFree>
         <possibleLengths national="3"/>
         <exampleNumber>192</exampleNumber>
-        <nationalNumberPattern>
-          19[2-5]|
-          99[2-49]
-        </nationalNumberPattern>
+        <nationalNumberPattern>19[2-5]</nationalNumberPattern>
       </tollFree>
       <!-- http://www.tskl.net.ki/910_operator.php - charged at $0.20 per call. -->
       <standardRate>
@@ -7591,18 +7627,10 @@
         <exampleNumber>103</exampleNumber>
         <nationalNumberPattern>103</nationalNumberPattern>
       </standardRate>
-      <!-- ITU 30.VIII.2013 still listed 9XX emergency numbers (not yet 1XX).
-           Newer ITU updates (2016) no longer mention 9XX but list 1XX.
-           9XX might no longer be in use, but some websites (Wikipedia) still
-           list them.
-           TODO(b/33193822): Remove after confirming with government. -->
       <emergency>
         <possibleLengths national="3"/>
         <exampleNumber>192</exampleNumber>
-        <nationalNumberPattern>
-          19[2-5]|
-          99[2-49]
-        </nationalNumberPattern>
+        <nationalNumberPattern>19[2-5]</nationalNumberPattern>
       </emergency>
       <!-- See comment for emergency section. -->
       <expandedEmergency>
@@ -8703,7 +8731,7 @@
       </emergency>
     </territory>
 
-    <!-- Macedonia (FYROM) (MK) -->
+    <!-- North Macedonia (MK) -->
     <!-- http://www.itu.int/oth/T02020000CE/en -->
     <territory id="MK">
       <generalDesc>
@@ -8925,7 +8953,7 @@
       </emergency>
     </territory>
 
-    <!-- Macau (MO) -->
+    <!-- Macao (MO) -->
     <!-- http://www.itu.int/oth/T020200007E/en -->
     <territory id="MO">
       <generalDesc>
@@ -11797,7 +11825,7 @@
       </emergency>
     </territory>
 
-    <!-- Swaziland (SZ) -->
+    <!-- Eswatini (SZ) -->
     <!-- http://www.itu.int/oth/T02020000C6/en -->
     <territory id="SZ">
       <generalDesc>
@@ -11964,7 +11992,8 @@
             )|
             2(?:
               22|
-              3[89]
+              3[89]|
+              66
             )|
             3(?:
               18|
@@ -12060,6 +12089,7 @@
           )|
           1(?:
             1[68]|
+            26|
             3[1-35]|
             5[689]|
             60|

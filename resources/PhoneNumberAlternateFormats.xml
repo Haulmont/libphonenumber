@@ -3325,7 +3325,7 @@
       <availableFormats>
         <!-- Mobile numbers -->
         <numberFormat pattern="(\d{2})(\d{5})">
-          <leadingDigits>[78]</leadingDigits>
+          <leadingDigits>[5-8]</leadingDigits>
           <format>$1 $2</format>
         </numberFormat>
       </availableFormats>
