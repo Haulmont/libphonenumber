@@ -495,7 +495,7 @@
             0[0-35-7]|
             1[02-5]|
             2[015]|
-            34|
+            3[47]|
             4[478]|
             9
           )|
@@ -515,7 +515,7 @@
             0[0-35-7]|
             1[0245]|
             2[015]|
-            34|
+            3[47]|
             4[478]|
             9
           )|
@@ -545,7 +545,7 @@
           1(?:
             0[356]|
             20|
-            34|
+            3[47]|
             4[478]
           )
         </nationalNumberPattern>
@@ -7391,13 +7391,20 @@
       </generalDesc>
       <shortCode>
         <possibleLengths national="3"/>
-        <exampleNumber>110</exampleNumber>
-        <nationalNumberPattern>11[09]</nationalNumberPattern>
+        <exampleNumber>102</exampleNumber>
+        <nationalNumberPattern>
+          1(?:
+            0[24]|
+            1[089]|
+            44|
+            89
+          )
+        </nationalNumberPattern>
       </shortCode>
       <tollFree>
         <possibleLengths national="3"/>
         <exampleNumber>110</exampleNumber>
-        <nationalNumberPattern>11[09]</nationalNumberPattern>
+        <nationalNumberPattern>11[089]</nationalNumberPattern>
       </tollFree>
       <emergency>
         <possibleLengths national="3"/>
@@ -11179,7 +11186,7 @@
               9(?:
                 099|
                 22|
-                9[12]
+                9[0-3]
               )
             )
           )|
