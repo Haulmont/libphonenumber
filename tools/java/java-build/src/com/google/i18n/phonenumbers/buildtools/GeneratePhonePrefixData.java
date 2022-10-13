@@ -29,7 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,8 +64,7 @@ public class GeneratePhonePrefixData {
   private static final Pattern LANGUAGE_IN_FILE_PATH_PATTERN =
       Pattern.compile("(.*/)(?:[a-zA-Z_]+)(/\\d+\\.txt)");
   // Map used to store the English mappings to avoid reading the English text files multiple times.
-  private final Map<Integer /* country code */, SortedMap<Integer, String>> englishMaps =
-      new HashMap<Integer, SortedMap<Integer, String>>();
+  private final Map<Integer /* country code */, SortedMap<Integer, String>> englishMaps = new HashMap<>();
   // The IO Handler used to output the generated binary files.
   private final AbstractPhonePrefixDataIOHandler ioHandler;
 
@@ -84,7 +83,7 @@ public class GeneratePhonePrefixData {
   /**
    * Implement this interface to provide a callback to the parseTextFile() method.
    */
-  static interface PhonePrefixMappingHandler {
+  interface PhonePrefixMappingHandler {
     /**
      * Method called every time the parser matches a mapping. Note that 'prefix' is the prefix as
      * it is written in the text file (i.e phone number prefix appended to country code).
@@ -101,7 +100,7 @@ public class GeneratePhonePrefixData {
                             PhonePrefixMappingHandler handler) throws IOException {
     BufferedReader bufferedReader =
         new BufferedReader(new InputStreamReader(
-            new BufferedInputStream(input), Charset.forName("UTF-8")));
+            new BufferedInputStream(input), StandardCharsets.UTF_8));
     int lineNumber = 1;
 
     for (String line; (line = bufferedReader.readLine()) != null; lineNumber++) {
@@ -144,7 +143,7 @@ public class GeneratePhonePrefixData {
   // @VisibleForTesting
   static SortedMap<Integer, String> readMappingsFromTextFile(InputStream input)
       throws IOException {
-    final SortedMap<Integer, String> phonePrefixMap = new TreeMap<Integer, String>();
+    final SortedMap<Integer, String> phonePrefixMap = new TreeMap<>();
     parseTextFile(input, new PhonePrefixMappingHandler() {
       @Override
       public void process(int prefix, String location) {
@@ -188,11 +187,11 @@ public class GeneratePhonePrefixData {
    */
   private List<File> createOutputFiles(File countryCodeFile, int countryCode, String language)
       throws IOException {
-    List<File> outputFiles = new ArrayList<File>();
+    List<File> outputFiles = new ArrayList<>();
     // For NANPA, split the data into multiple binary files.
     if (countryCode == NANPA_COUNTRY_CODE) {
       // Fetch the 4-digit prefixes stored in the file.
-      final Set<Integer> phonePrefixes = new HashSet<Integer>();
+      final Set<Integer> phonePrefixes = new HashSet<>();
       FileInputStream inputStream = new FileInputStream(countryCodeFile);
       parseTextFile(inputStream, new PhonePrefixMappingHandler() {
         @Override
@@ -231,8 +230,11 @@ public class GeneratePhonePrefixData {
    * @throws IOException
    */
   private Map<File, List<File>> createInputOutputMappings() throws IOException {
-    Map<File, List<File>> mappings = new LinkedHashMap<File, List<File>>();
+    Map<File, List<File>> mappings = new LinkedHashMap<>();
     File[] languageDirectories = inputPath.listFiles();
+    if (languageDirectories == null || languageDirectories.length == 0) {
+      return mappings;
+    }
     // Make sure that filenames are processed in the same order build-to-build.
     Arrays.sort(languageDirectories);
 
@@ -241,6 +243,9 @@ public class GeneratePhonePrefixData {
         continue;
       }
       File[] countryCodeFiles = languageDirectory.listFiles();
+      if (countryCodeFiles == null || countryCodeFiles.length == 0) {
+        continue;
+      }
       Arrays.sort(countryCodeFiles);
 
       for (File countryCodeFile : countryCodeFiles) {
@@ -272,7 +277,7 @@ public class GeneratePhonePrefixData {
     String language = phonePrefixLanguagePair.language;
     Set<String> languageSet = availableDataFiles.get(prefix);
     if (languageSet == null) {
-      languageSet = new HashSet<String>();
+      languageSet = new HashSet<>();
       availableDataFiles.put(prefix, languageSet);
     }
     languageSet.add(language);
@@ -305,8 +310,7 @@ public class GeneratePhonePrefixData {
   // @VisibleForTesting
   static Map<File, SortedMap<Integer, String>> splitMap(
       SortedMap<Integer, String> mappings, List<File> outputBinaryFiles) {
-    Map<File, SortedMap<Integer, String>> mappingsForFiles =
-        new LinkedHashMap<File, SortedMap<Integer, String>>();
+    Map<File, SortedMap<Integer, String>> mappingsForFiles = new LinkedHashMap<>();
     for (Map.Entry<Integer, String> mapping : mappings.entrySet()) {
       String prefix = String.valueOf(mapping.getKey());
       File targetFile = null;
@@ -321,7 +325,7 @@ public class GeneratePhonePrefixData {
       }
       SortedMap<Integer, String> mappingsForPhonePrefixLangPair = mappingsForFiles.get(targetFile);
       if (mappingsForPhonePrefixLangPair == null) {
-        mappingsForPhonePrefixLangPair = new TreeMap<Integer, String>();
+        mappingsForPhonePrefixLangPair = new TreeMap<>();
         mappingsForFiles.put(targetFile, mappingsForPhonePrefixLangPair);
       }
       mappingsForPhonePrefixLangPair.put(mapping.getKey(), mapping.getValue());
@@ -429,9 +433,9 @@ public class GeneratePhonePrefixData {
    *
    * @throws IOException
    */
-  public void run() throws IOException {
+  public void run(boolean deleteGeneratedFiles) throws IOException {
     Map<File, List<File>> inputOutputMappings = createInputOutputMappings();
-    SortedMap<Integer, Set<String>> availableDataFiles = new TreeMap<Integer, Set<String>>();
+    SortedMap<Integer, Set<String>> availableDataFiles = new TreeMap<>();
 
     for (Map.Entry<File, List<File>> inputOutputMapping : inputOutputMappings.entrySet()) {
       FileInputStream fileInputStream = null;
@@ -458,6 +462,9 @@ public class GeneratePhonePrefixData {
             ioHandler.addFileToOutput(outputBinaryFile);
           } finally {
             ioHandler.closeFile(fileOutputStream);
+            if (deleteGeneratedFiles && outputBinaryFile != null && outputBinaryFile.exists()) {
+              outputBinaryFile.delete();
+            }
           }
         }
       } catch (RuntimeException e) {

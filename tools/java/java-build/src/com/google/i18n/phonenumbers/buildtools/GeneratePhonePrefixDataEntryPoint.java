@@ -25,11 +25,13 @@ import java.util.logging.Logger;
 
 /**
  * Entry point class used to invoke the generation of the binary phone prefix data files.
- *
- * @author Philippe Liard
  */
 public class GeneratePhonePrefixDataEntryPoint extends Command {
+
   private static final Logger logger = Logger.getLogger(GeneratePhonePrefixData.class.getName());
+  private static final String USAGE_DESCRIPTION =
+      "usage: GeneratePhonePrefixData /path/to/input/directory /path/to/output/directory"
+          + " [outputJarName]";
 
   @Override
   public String getCommandName() {
@@ -40,16 +42,19 @@ public class GeneratePhonePrefixDataEntryPoint extends Command {
   public boolean start() {
     String[] args = getArgs();
 
-    if (args.length != 3) {
-      logger.log(Level.SEVERE,
-                 "usage: GeneratePhonePrefixData /path/to/input/directory "
-                 + "/path/to/output/directory");
+    if (args.length < 3 || args.length > 4) {
+      logger.log(Level.SEVERE, USAGE_DESCRIPTION);
       return false;
     }
+    boolean packToJar = args.length == 4;
     try {
-      GeneratePhonePrefixData generatePhonePrefixData =
-          new GeneratePhonePrefixData(new File(args[1]), new PhonePrefixDataIOHandler(new File(args[2])));
-      generatePhonePrefixData.run();
+      File inputPath = new File(args[1]);
+      File outputPath = new File(args[2]);
+      AbstractPhonePrefixDataIOHandler ioHandler = packToJar
+              ? new JarPhonePrefixDataIOHandler(outputPath, args[3], GeneratePhonePrefixData.class.getPackage())
+              : new PhonePrefixDataIOHandler(outputPath);
+      GeneratePhonePrefixData dataGenerator = new GeneratePhonePrefixData(inputPath, ioHandler);
+      dataGenerator.run(packToJar);
     } catch (IOException e) {
       logger.log(Level.SEVERE, e.getMessage());
       return false;

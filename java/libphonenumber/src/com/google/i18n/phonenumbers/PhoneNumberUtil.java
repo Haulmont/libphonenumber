@@ -24,6 +24,9 @@ import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber.CountryCodeSource;
 import com.google.i18n.phonenumbers.internal.MatcherApi;
 import com.google.i18n.phonenumbers.internal.RegexBasedMatcher;
 import com.google.i18n.phonenumbers.internal.RegexCache;
+import com.google.i18n.phonenumbers.metadata.DefaultMetadataDependenciesProvider;
+import com.google.i18n.phonenumbers.metadata.source.MetadataSource;
+import com.google.i18n.phonenumbers.metadata.source.MetadataSourceImpl;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -62,10 +65,6 @@ public class PhoneNumberUtil {
   private static final String UNKNOWN_REGION = "ZZ";
 
   private static final int NANPA_COUNTRY_CODE = 1;
-
-  // The prefix that needs to be inserted in front of a Colombian landline number when dialed from
-  // a mobile phone in Colombia.
-  private static final String COLOMBIA_MOBILE_TO_FIXED_LINE_PREFIX = "3";
 
   // Map of country calling codes that use a mobile token before the area code. One example of when
   // this is relevant is when determining the length of the national destination code, which should
@@ -111,16 +110,16 @@ public class PhoneNumberUtil {
   private static final Map<Character, Character> ALL_PLUS_NUMBER_GROUPING_SYMBOLS;
 
   static {
-    HashMap<Integer, String> mobileTokenMap = new HashMap<Integer, String>();
+    HashMap<Integer, String> mobileTokenMap = new HashMap<>();
     mobileTokenMap.put(54, "9");
     MOBILE_TOKEN_MAPPINGS = Collections.unmodifiableMap(mobileTokenMap);
 
-    HashSet<Integer> geoMobileCountriesWithoutMobileAreaCodes = new HashSet<Integer>();
+    HashSet<Integer> geoMobileCountriesWithoutMobileAreaCodes = new HashSet<>();
     geoMobileCountriesWithoutMobileAreaCodes.add(86);  // China
     GEO_MOBILE_COUNTRIES_WITHOUT_MOBILE_AREA_CODES =
         Collections.unmodifiableSet(geoMobileCountriesWithoutMobileAreaCodes);
 
-    HashSet<Integer> geoMobileCountries = new HashSet<Integer>();
+    HashSet<Integer> geoMobileCountries = new HashSet<>();
     geoMobileCountries.add(52);  // Mexico
     geoMobileCountries.add(54);  // Argentina
     geoMobileCountries.add(55);  // Brazil
@@ -130,7 +129,7 @@ public class PhoneNumberUtil {
 
     // Simple ASCII digits map used to populate ALPHA_PHONE_MAPPINGS and
     // ALL_PLUS_NUMBER_GROUPING_SYMBOLS.
-    HashMap<Character, Character> asciiDigitMappings = new HashMap<Character, Character>();
+    HashMap<Character, Character> asciiDigitMappings = new HashMap<>();
     asciiDigitMappings.put('0', '0');
     asciiDigitMappings.put('1', '1');
     asciiDigitMappings.put('2', '2');
@@ -142,7 +141,7 @@ public class PhoneNumberUtil {
     asciiDigitMappings.put('8', '8');
     asciiDigitMappings.put('9', '9');
 
-    HashMap<Character, Character> alphaMap = new HashMap<Character, Character>(40);
+    HashMap<Character, Character> alphaMap = new HashMap<>(40);
     alphaMap.put('A', '2');
     alphaMap.put('B', '2');
     alphaMap.put('C', '2');
@@ -171,19 +170,19 @@ public class PhoneNumberUtil {
     alphaMap.put('Z', '9');
     ALPHA_MAPPINGS = Collections.unmodifiableMap(alphaMap);
 
-    HashMap<Character, Character> combinedMap = new HashMap<Character, Character>(100);
+    HashMap<Character, Character> combinedMap = new HashMap<>(100);
     combinedMap.putAll(ALPHA_MAPPINGS);
     combinedMap.putAll(asciiDigitMappings);
     ALPHA_PHONE_MAPPINGS = Collections.unmodifiableMap(combinedMap);
 
-    HashMap<Character, Character> diallableCharMap = new HashMap<Character, Character>();
+    HashMap<Character, Character> diallableCharMap = new HashMap<>();
     diallableCharMap.putAll(asciiDigitMappings);
     diallableCharMap.put(PLUS_SIGN, PLUS_SIGN);
     diallableCharMap.put('*', '*');
     diallableCharMap.put('#', '#');
     DIALLABLE_CHAR_MAPPINGS = Collections.unmodifiableMap(diallableCharMap);
 
-    HashMap<Character, Character> allPlusNumberGroupings = new HashMap<Character, Character>();
+    HashMap<Character, Character> allPlusNumberGroupings = new HashMap<>();
     // Put (lower letter -> upper letter) and (upper letter -> upper letter) mappings.
     for (char c : ALPHA_MAPPINGS.keySet()) {
       allPlusNumberGroupings.put(Character.toLowerCase(c), c);
@@ -298,8 +297,8 @@ public class PhoneNumberUtil {
   // version.
   private static final String EXTN_PATTERNS_FOR_PARSING = createExtnPattern(true);
   static final String EXTN_PATTERNS_FOR_MATCHING = createExtnPattern(false);
-  
-  /** 
+
+  /**
    * Helper method for constructing regular expressions for parsing. Creates an expression that
    * captures up to maxLength digits.
    */
@@ -651,7 +650,7 @@ public class PhoneNumberUtil {
   // The set of regions that share country calling code 1.
   // There are roughly 26 regions.
   // We set the initial capacity of the HashSet to 35 to offer a load factor of roughly 0.75.
-  private final Set<String> nanpaRegions = new HashSet<String>(35);
+  private final Set<String> nanpaRegions = new HashSet<>(35);
 
   // A cache for frequently used region-specific regular expressions.
   // The initial capacity is set to 100 as this seems to be an optimal value for Android, based on
@@ -661,11 +660,11 @@ public class PhoneNumberUtil {
   // The set of regions the library supports.
   // There are roughly 240 of them and we set the initial capacity of the HashSet to 320 to offer a
   // load factor of roughly 0.75.
-  private final Set<String> supportedRegions = new HashSet<String>(320);
+  private final Set<String> supportedRegions = new HashSet<>(320);
 
   // The set of country calling codes that map to the non-geo entity region ("001"). This set
   // currently contains < 12 elements so the default capacity of 16 (load factor=0.75) is fine.
-  private final Set<Integer> countryCodesForNonGeographicalRegion = new HashSet<Integer>();
+  private final Set<Integer> countryCodesForNonGeographicalRegion = new HashSet<>();
 
   /**
    * This class implements a singleton, the constructor is only visible to facilitate testing.
@@ -1082,7 +1081,7 @@ public class PhoneNumberUtil {
    * be non-null.
    */
   private Set<PhoneNumberType> getSupportedTypesForMetadata(PhoneMetadata metadata) {
-    Set<PhoneNumberType> types = new TreeSet<PhoneNumberType>();
+    Set<PhoneNumberType> types = new TreeSet<>();
     for (PhoneNumberType type : PhoneNumberType.values()) {
       if (type == PhoneNumberType.FIXED_LINE_OR_MOBILE || type == PhoneNumberType.UNKNOWN) {
         // Never return FIXED_LINE_OR_MOBILE (it is a convenience type, and represents that a
@@ -1142,7 +1141,9 @@ public class PhoneNumberUtil {
    */
   public static synchronized PhoneNumberUtil getInstance() {
     if (instance == null) {
-      setInstance(createInstance(MetadataManager.DEFAULT_METADATA_LOADER));
+      MetadataLoader metadataLoader = DefaultMetadataDependenciesProvider.getInstance()
+          .getMetadataLoader();
+      setInstance(createInstance(metadataLoader));
     }
     return instance;
   }
@@ -1163,7 +1164,11 @@ public class PhoneNumberUtil {
     if (metadataLoader == null) {
       throw new IllegalArgumentException("metadataLoader could not be null.");
     }
-    return createInstance(new MultiFileMetadataSourceImpl(metadataLoader));
+    return createInstance(new MetadataSourceImpl(
+        DefaultMetadataDependenciesProvider.getInstance().getPhoneNumberMetadataFileNameProvider(),
+        metadataLoader,
+        DefaultMetadataDependenciesProvider.getInstance().getMetadataParser()
+    ));
   }
 
   /**
@@ -1457,10 +1462,7 @@ public class PhoneNumberUtil {
           (numberType == PhoneNumberType.FIXED_LINE) || (numberType == PhoneNumberType.MOBILE)
           || (numberType == PhoneNumberType.FIXED_LINE_OR_MOBILE);
       // Carrier codes may be needed in some countries. We handle this here.
-      if (regionCode.equals("CO") && numberType == PhoneNumberType.FIXED_LINE) {
-        formattedNumber =
-            formatNationalNumberWithCarrierCode(numberNoExt, COLOMBIA_MOBILE_TO_FIXED_LINE_PREFIX);
-      } else if (regionCode.equals("BR") && isFixedLineOrMobile) {
+      if (regionCode.equals("BR") && isFixedLineOrMobile) {
         // Historically, we set this to an empty string when parsing with raw input if none was
         // found in the input string. However, this doesn't result in a number we can dial. For this
         // reason, we treat the empty string the same as if it isn't set at all.
@@ -1476,7 +1478,7 @@ public class PhoneNumberUtil {
         // short numbers, which are always dialled in national format.
         PhoneMetadata regionMetadata = getMetadataForRegion(regionCallingFrom);
         if (canBeInternationallyDialled(numberNoExt)
-                && testNumberLength(getNationalSignificantNumber(numberNoExt), regionMetadata)
+            && testNumberLength(getNationalSignificantNumber(numberNoExt), regionMetadata)
                 != ValidationResult.TOO_SHORT) {
           formattedNumber = format(numberNoExt, PhoneNumberFormat.INTERNATIONAL);
         } else {
@@ -1601,19 +1603,21 @@ public class PhoneNumberUtil {
   }
 
   /**
-   * Formats a phone number using the original phone number format that the number is parsed from.
-   * The original format is embedded in the country_code_source field of the PhoneNumber object
-   * passed in. If such information is missing, the number will be formatted into the NATIONAL
-   * format by default. When we don't have a formatting pattern for the number, the method returns
-   * the raw input when it is available.
+   * Formats a phone number using the original phone number format (e.g. INTERNATIONAL or NATIONAL)
+   * that the number is parsed from, provided that the number has been parsed with {@link
+   * parseAndKeepRawInput}. Otherwise the number will be formatted in NATIONAL format.
    *
-   * Note this method guarantees no digit will be inserted, removed or modified as a result of
+   * <p>The original format is embedded in the country_code_source field of the PhoneNumber object
+   * passed in, which is only set when parsing keeps the raw input. When we don't have a formatting
+   * pattern for the number, the method falls back to returning the raw input.
+   *
+   * <p>Note this method guarantees no digit will be inserted, removed or modified as a result of
    * formatting.
    *
-   * @param number  the phone number that needs to be formatted in its original number format
-   * @param regionCallingFrom  the region whose IDD needs to be prefixed if the original number
-   *     has one
-   * @return  the formatted phone number in its original number format
+   * @param number the phone number that needs to be formatted in its original number format
+   * @param regionCallingFrom the region whose IDD needs to be prefixed if the original number has
+   *     one
+   * @return the formatted phone number in its original number format
    */
   public String formatInOriginalFormat(PhoneNumber number, String regionCallingFrom) {
     if (number.hasRawInput() && !hasFormattingPatternForNumber(number)) {
@@ -1692,7 +1696,7 @@ public class PhoneNumberUtil {
         NumberFormat.Builder numFormatCopy =  NumberFormat.newBuilder();
         numFormatCopy.mergeFrom(formatRule);
         numFormatCopy.clearNationalPrefixFormattingRule();
-        List<NumberFormat> numberFormats = new ArrayList<NumberFormat>(1);
+        List<NumberFormat> numberFormats = new ArrayList<>(1);
         numberFormats.add(numFormatCopy.build());
         formattedNumber = formatByPattern(number, PhoneNumberFormat.NATIONAL, numberFormats);
         break;
@@ -2268,21 +2272,42 @@ public class PhoneNumberUtil {
   }
 
   /**
-   * Returns the metadata for the given region code or {@code null} if the region code is invalid
-   * or unknown.
+   * Returns the metadata for the given region code or {@code null} if the region code is invalid or
+   * unknown.
+   *
+   * @throws MissingMetadataException if the region code is valid, but metadata cannot be found.
    */
   PhoneMetadata getMetadataForRegion(String regionCode) {
     if (!isValidRegionCode(regionCode)) {
       return null;
     }
-    return metadataSource.getMetadataForRegion(regionCode);
+    PhoneMetadata phoneMetadata = metadataSource.getMetadataForRegion(regionCode);
+    ensureMetadataIsNonNull(phoneMetadata, "Missing metadata for region code " + regionCode);
+    return phoneMetadata;
   }
 
+  /**
+   * Returns the metadata for the given country calling code or {@code null} if the country calling
+   * code is invalid or unknown.
+   *
+   * @throws MissingMetadataException if the country calling code is valid, but metadata cannot be
+   *     found.
+   */
   PhoneMetadata getMetadataForNonGeographicalRegion(int countryCallingCode) {
-    if (!countryCallingCodeToRegionCodeMap.containsKey(countryCallingCode)) {
+    if (!countryCodesForNonGeographicalRegion.contains(countryCallingCode)) {
       return null;
     }
-    return metadataSource.getMetadataForNonGeographicalRegion(countryCallingCode);
+    PhoneMetadata phoneMetadata = metadataSource.getMetadataForNonGeographicalRegion(
+        countryCallingCode);
+    ensureMetadataIsNonNull(phoneMetadata,
+        "Missing metadata for country code " + countryCallingCode);
+    return phoneMetadata;
+  }
+
+  private static void ensureMetadataIsNonNull(PhoneMetadata phoneMetadata, String message) {
+    if (phoneMetadata == null) {
+      throw new MissingMetadataException(message);
+    }
   }
 
   boolean isNumberMatchingDesc(String nationalNumber, PhoneNumberDesc numberDesc) {
@@ -2578,13 +2603,13 @@ public class PhoneNumberUtil {
         PhoneNumberDesc mobileDesc = getNumberDescByType(metadata, PhoneNumberType.MOBILE);
         if (descHasPossibleNumberData(mobileDesc)) {
           // Merge the mobile data in if there was any. We have to make a copy to do this.
-          possibleLengths = new ArrayList<Integer>(possibleLengths);
+          possibleLengths = new ArrayList<>(possibleLengths);
           // Note that when adding the possible lengths from mobile, we have to again check they
           // aren't empty since if they are this indicates they are the same as the general desc and
           // should be obtained from there.
           possibleLengths.addAll(mobileDesc.getPossibleLengthCount() == 0
-                  ? metadata.getGeneralDesc().getPossibleLengthList()
-                  : mobileDesc.getPossibleLengthList());
+              ? metadata.getGeneralDesc().getPossibleLengthList()
+              : mobileDesc.getPossibleLengthList());
           // The current list is sorted; we need to merge in the new list and re-sort (duplicates
           // are okay). Sorting isn't so expensive because the lists are very small.
           Collections.sort(possibleLengths);
@@ -2592,7 +2617,7 @@ public class PhoneNumberUtil {
           if (localLengths.isEmpty()) {
             localLengths = mobileDesc.getPossibleLengthLocalOnlyList();
           } else {
-            localLengths = new ArrayList<Integer>(localLengths);
+            localLengths = new ArrayList<>(localLengths);
             localLengths.addAll(mobileDesc.getPossibleLengthLocalOnlyList());
             Collections.sort(localLengths);
           }
@@ -3565,23 +3590,5 @@ public class PhoneNumberUtil {
       return false;
     }
     return metadata.getMobileNumberPortableRegion();
-  }
-
-  /**
-   * Load xml configuration which dynamically prepared for changing of phone scheme
-   * @param inputXmlFile path to xml (based on tomcat\bin path)
-   * @throws DynamicMetadataException exception of reading of xml
-   */
-  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
-    metadataSource.loadDynamicMetadata(inputXmlFile, null);
-  }
-
-  /**
-   * Load xml configuration which dynamically prepared for changing of phone scheme
-   * @param metadata byte array from metadata xml
-   * @throws DynamicMetadataException exception of reading of xml
-   */
-  public void loadDynamicMetadata(byte[] metadata) throws DynamicMetadataException {
-    metadataSource.loadDynamicMetadata(null, metadata);
   }
 }

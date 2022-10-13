@@ -21,6 +21,8 @@ import com.google.i18n.phonenumbers.Phonemetadata.PhoneNumberDesc;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.google.i18n.phonenumbers.internal.MatcherApi;
 import com.google.i18n.phonenumbers.internal.RegexBasedMatcher;
+import com.google.i18n.phonenumbers.metadata.DefaultMetadataDependenciesProvider;
+import com.google.i18n.phonenumbers.metadata.source.RegionMetadataSource;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -38,12 +40,13 @@ public class ShortNumberInfo {
   private static final Logger logger = Logger.getLogger(ShortNumberInfo.class.getName());
 
   private static final ShortNumberInfo INSTANCE =
-      new ShortNumberInfo(RegexBasedMatcher.create());
+      new ShortNumberInfo(
+          RegexBasedMatcher.create(),
+          DefaultMetadataDependenciesProvider.getInstance().getShortNumberMetadataSource());
 
   // In these countries, if extra digits are added to an emergency number, it no longer connects
   // to the emergency service.
-  private static final Set<String> REGIONS_WHERE_EMERGENCY_NUMBERS_MUST_BE_EXACT =
-      new HashSet<String>();
+  private static final Set<String> REGIONS_WHERE_EMERGENCY_NUMBERS_MUST_BE_EXACT = new HashSet<>();
   static {
     REGIONS_WHERE_EMERGENCY_NUMBERS_MUST_BE_EXACT.add("BR");
     REGIONS_WHERE_EMERGENCY_NUMBERS_MUST_BE_EXACT.add("CL");
@@ -55,7 +58,7 @@ public class ShortNumberInfo {
     TOLL_FREE,
     STANDARD_RATE,
     PREMIUM_RATE,
-    UNKNOWN_COST;
+    UNKNOWN_COST
   }
 
   /** Returns the singleton instance of the ShortNumberInfo. */
@@ -73,9 +76,13 @@ public class ShortNumberInfo {
   // first.
   private final Map<Integer, List<String>> countryCallingCodeToRegionCodeMap;
 
+  private final RegionMetadataSource shortNumberMetadataSource;
+
   // @VisibleForTesting
-  ShortNumberInfo(MatcherApi matcherApi) {
+  ShortNumberInfo(MatcherApi matcherApi,
+      RegionMetadataSource shortNumberMetadataSource) {
     this.matcherApi = matcherApi;
+    this.shortNumberMetadataSource = shortNumberMetadataSource;
     // TODO: Create ShortNumberInfo for a given map
     this.countryCallingCodeToRegionCodeMap =
         CountryCodeToRegionCodeMap.getCountryCodeToRegionCodeMap();
@@ -103,6 +110,21 @@ public class ShortNumberInfo {
   }
 
   /**
+   * A thin wrapper around {@code shortNumberMetadataSource} which catches {@link
+   * IllegalArgumentException} for invalid region code and instead returns {@code null}
+   */
+  private PhoneMetadata getShortNumberMetadataForRegion(String regionCode) {
+    if (regionCode == null) {
+      return null;
+    }
+    try {
+      return shortNumberMetadataSource.getMetadataForRegion(regionCode);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
+  }
+
+  /**
    * Check whether a short number is a possible number when dialed from the given region. This
    * provides a more lenient check than {@link #isValidShortNumberForRegion}.
    *
@@ -114,8 +136,7 @@ public class ShortNumberInfo {
     if (!regionDialingFromMatchesNumber(number, regionDialingFrom)) {
       return false;
     }
-    PhoneMetadata phoneMetadata =
-        MetadataManager.getShortNumberMetadataForRegion(regionDialingFrom);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionDialingFrom);
     if (phoneMetadata == null) {
       return false;
     }
@@ -136,7 +157,7 @@ public class ShortNumberInfo {
     List<String> regionCodes = getRegionCodesForCountryCode(number.getCountryCode());
     int shortNumberLength = getNationalSignificantNumber(number).length();
     for (String region : regionCodes) {
-      PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(region);
+      PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(region);
       if (phoneMetadata == null) {
         continue;
       }
@@ -160,8 +181,7 @@ public class ShortNumberInfo {
     if (!regionDialingFromMatchesNumber(number, regionDialingFrom)) {
       return false;
     }
-    PhoneMetadata phoneMetadata =
-        MetadataManager.getShortNumberMetadataForRegion(regionDialingFrom);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionDialingFrom);
     if (phoneMetadata == null) {
       return false;
     }
@@ -222,8 +242,7 @@ public class ShortNumberInfo {
       return ShortNumberCost.UNKNOWN_COST;
     }
     // Note that regionDialingFrom may be null, in which case phoneMetadata will also be null.
-    PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(
-        regionDialingFrom);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionDialingFrom);
     if (phoneMetadata == null) {
       return ShortNumberCost.UNKNOWN_COST;
     }
@@ -320,7 +339,7 @@ public class ShortNumberInfo {
     }
     String nationalNumber = getNationalSignificantNumber(number);
     for (String regionCode : regionCodes) {
-      PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(regionCode);
+      PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionCode);
       if (phoneMetadata != null
           && matchesPossibleNumberAndNationalNumber(nationalNumber, phoneMetadata.getShortCode())) {
         // The number is valid for this region.
@@ -328,13 +347,6 @@ public class ShortNumberInfo {
       }
     }
     return null;
-  }
-
-  /**
-   * Convenience method to get a list of what regions the library has metadata for.
-   */
-  Set<String> getSupportedRegions() {
-    return MetadataManager.getSupportedShortNumberRegions();
   }
 
   /**
@@ -346,7 +358,7 @@ public class ShortNumberInfo {
    */
   // @VisibleForTesting
   String getExampleShortNumber(String regionCode) {
-    PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(regionCode);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionCode);
     if (phoneMetadata == null) {
       return "";
     }
@@ -367,7 +379,7 @@ public class ShortNumberInfo {
    */
   // @VisibleForTesting
   String getExampleShortNumberForCost(String regionCode, ShortNumberCost cost) {
-    PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(regionCode);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionCode);
     if (phoneMetadata == null) {
       return "";
     }
@@ -435,7 +447,7 @@ public class ShortNumberInfo {
       // add additional logic here to handle it.
       return false;
     }
-    PhoneMetadata metadata = MetadataManager.getShortNumberMetadataForRegion(regionCode);
+    PhoneMetadata metadata = getShortNumberMetadataForRegion(regionCode);
     if (metadata == null || !metadata.hasEmergency()) {
       return false;
     }
@@ -461,7 +473,7 @@ public class ShortNumberInfo {
     List<String> regionCodes = getRegionCodesForCountryCode(number.getCountryCode());
     String regionCode = getRegionCodeForShortNumberFromRegionList(number, regionCodes);
     String nationalNumber = getNationalSignificantNumber(number);
-    PhoneMetadata phoneMetadata = MetadataManager.getShortNumberMetadataForRegion(regionCode);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionCode);
     return (phoneMetadata != null)
         && (matchesPossibleNumberAndNationalNumber(nationalNumber,
                 phoneMetadata.getCarrierSpecific()));
@@ -485,8 +497,7 @@ public class ShortNumberInfo {
       return false;
     }
     String nationalNumber = getNationalSignificantNumber(number);
-    PhoneMetadata phoneMetadata =
-        MetadataManager.getShortNumberMetadataForRegion(regionDialingFrom);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionDialingFrom);
     return (phoneMetadata != null)
         && (matchesPossibleNumberAndNationalNumber(nationalNumber,
                 phoneMetadata.getCarrierSpecific()));
@@ -509,8 +520,7 @@ public class ShortNumberInfo {
     if (!regionDialingFromMatchesNumber(number, regionDialingFrom)) {
       return false;
     }
-    PhoneMetadata phoneMetadata =
-        MetadataManager.getShortNumberMetadataForRegion(regionDialingFrom);
+    PhoneMetadata phoneMetadata = getShortNumberMetadataForRegion(regionDialingFrom);
     return phoneMetadata != null
         && matchesPossibleNumberAndNationalNumber(getNationalSignificantNumber(number),
             phoneMetadata.getSmsServices());
