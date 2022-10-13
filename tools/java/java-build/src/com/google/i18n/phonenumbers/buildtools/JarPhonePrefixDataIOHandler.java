@@ -86,9 +86,6 @@ public class JarPhonePrefixDataIOHandler extends AbstractPhonePrefixDataIOHandle
       for (int read; (read = bufferedInputStream.read(buffer)) > 0; ) {
         jarOutputStream.write(buffer, 0, read);
       }
-      if (!file.delete()) {
-        throw new IOException("Could not delete: " + file.getAbsolutePath());
-      }
     } finally {
       jarOutputStream.closeEntry();
       closeFile(bufferedInputStream);

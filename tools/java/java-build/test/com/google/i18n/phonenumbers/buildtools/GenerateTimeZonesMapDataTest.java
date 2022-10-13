@@ -92,7 +92,6 @@ public class GenerateTimeZonesMapDataTest extends TestCase {
   // Returns a String representing the input after serialization and deserialization by
   // PrefixTimeZonesMap.
   private static String convertDataHelper(String input) throws IOException {
-    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input.getBytes());
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
     SortedMap<Integer, String> prefixTimeZonesMapping = parseTextFileHelper(input);

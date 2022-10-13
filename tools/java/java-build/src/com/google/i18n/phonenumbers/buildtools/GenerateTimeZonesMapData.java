@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -62,10 +62,10 @@ public class GenerateTimeZonesMapData {
   // @VisibleForTesting
   static SortedMap<Integer, String> parseTextFile(InputStream input)
       throws IOException, RuntimeException {
-    final SortedMap<Integer, String> timeZoneMap = new TreeMap<Integer, String>();
+    final SortedMap<Integer, String> timeZoneMap = new TreeMap<>();
     BufferedReader bufferedReader =
         new BufferedReader(new InputStreamReader(
-            new BufferedInputStream(input), Charset.forName("UTF-8")));
+            new BufferedInputStream(input), StandardCharsets.UTF_8));
     int lineNumber = 1;
 
     for (String line; (line = bufferedReader.readLine()) != null; lineNumber++) {
@@ -75,8 +75,7 @@ public class GenerateTimeZonesMapData {
       }
       int indexOfPipe = line.indexOf('|');
       if (indexOfPipe == -1) {
-        throw new RuntimeException(String.format("line %d: malformatted data, expected '|'",
-                                                 lineNumber));
+        throw new RuntimeException(String.format("line %d: malformatted data, expected '|'", lineNumber));
       }
       Integer prefix = Integer.parseInt(line.substring(0, indexOfPipe));
       String timezones = line.substring(indexOfPipe + 1);
@@ -111,7 +110,7 @@ public class GenerateTimeZonesMapData {
    *
    * @throws IOException
    */
-  public void run() throws IOException {
+  public void run(boolean deleteGeneratedFiles) throws IOException {
     FileInputStream fileInputStream = null;
     FileOutputStream fileOutputStream = null;
     try {
@@ -124,10 +123,12 @@ public class GenerateTimeZonesMapData {
         ioHandler.addFileToOutput(outputBinaryFile);
       } finally {
         ioHandler.closeFile(fileOutputStream);
+        if (deleteGeneratedFiles && outputBinaryFile != null && outputBinaryFile.exists()) {
+          outputBinaryFile.delete();
+        }
       }
     } catch (RuntimeException e) {
-      logger.log(Level.SEVERE,
-                 "Error processing file " + inputTextFile.getAbsolutePath());
+      logger.log(Level.SEVERE, "Error processing file " + inputTextFile.getAbsolutePath());
       throw e;
     } catch (IOException e) {
       logger.log(Level.SEVERE, e.getMessage());

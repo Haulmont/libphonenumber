@@ -44,7 +44,7 @@ public class JarPhonePrefixDataIOHandlerTest extends TestCase {
 
       JarPhonePrefixDataIOHandler ioHandler =
           new JarPhonePrefixDataIOHandler(outputPath, TESTING_JAR_BASE, outputPackage);
-      outputFile = File.createTempFile("outputTestFile", "txt");
+      outputFile = File.createTempFile("outputTestFile", ".txt");
       ioHandler.addFileToOutput(outputFile);
       ioHandler.close();
 

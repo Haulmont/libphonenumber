@@ -48,16 +48,15 @@ public class GenerateTimeZonesMapDataEntryPoint extends Command {
       logger.log(Level.SEVERE, USAGE_DESCRIPTION);
       return false;
     }
+    boolean packToJar = args.length == 4;
     try {
       File inputPath = new File(args[1]);
       File outputPath = new File(args[2]);
-      AbstractPhonePrefixDataIOHandler ioHandler =
-          args.length == 3
-              ? new PhonePrefixDataIOHandler(outputPath)
-              : new JarPhonePrefixDataIOHandler(
-                  outputPath, args[3], GeneratePhonePrefixData.class.getPackage());
+      AbstractPhonePrefixDataIOHandler ioHandler = packToJar
+              ? new JarPhonePrefixDataIOHandler(outputPath, args[3], GeneratePhonePrefixData.class.getPackage())
+              : new PhonePrefixDataIOHandler(outputPath);
       GenerateTimeZonesMapData generateTimeZonesMapData = new GenerateTimeZonesMapData(inputPath, ioHandler);
-      generateTimeZonesMapData.run();
+      generateTimeZonesMapData.run(packToJar);
     } catch (IOException e) {
       logger.log(Level.SEVERE, e.getMessage());
       return false;
