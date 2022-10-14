@@ -16,6 +16,13 @@
 
 package com.google.i18n.phonenumbers.metadata.source;
 
+import com.google.i18n.phonenumbers.Phonemetadata.PhoneMetadata;
+
 /** A source of phone metadata split by different regions. */
 public interface MetadataSource extends RegionMetadataSource, NonGeographicalEntityMetadataSource {
+    /**
+     * Adds {@link PhoneMetadata} to inner store. Method is not thread safe.
+     * @param phoneMetadata phone metadata to store
+     */
+    void acceptDynamicMetadata(PhoneMetadata phoneMetadata);
 }
