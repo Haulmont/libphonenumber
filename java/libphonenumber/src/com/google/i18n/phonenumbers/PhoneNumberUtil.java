@@ -3591,4 +3591,38 @@ public class PhoneNumberUtil {
     }
     return metadata.getMobileNumberPortableRegion();
   }
+
+  /**
+   * Load xml configuration which dynamically prepared for changing of phone scheme
+   * @param inputXmlFile path to xml (based on tomcat\bin path)
+   * @throws DynamicMetadataException exception of reading of xml
+   */
+  public void loadDynamicMetadata(String inputXmlFile) throws DynamicMetadataException {
+    loadDynamicMetadata(inputXmlFile, null);
+  }
+
+  /**
+   * Load xml configuration which dynamically prepared for changing of phone scheme
+   * @param metadata byte array from metadata xml
+   * @throws DynamicMetadataException exception of reading of xml
+   */
+  public void loadDynamicMetadata(byte[] metadata) throws DynamicMetadataException {
+    loadDynamicMetadata(null, metadata);
+  }
+
+  private void loadDynamicMetadata(String inputXmlFile, byte[] metadata) throws DynamicMetadataException {
+    Phonemetadata.PhoneMetadataCollection phoneMetadatas;
+    try {
+      if (metadata != null) {
+        phoneMetadatas = BuildMetadataFromXml.buildPhoneMetadataCollection(metadata, false, false);
+      } else {
+        phoneMetadatas = BuildMetadataFromXml.buildPhoneMetadataCollection(inputXmlFile, false, false);
+      }
+    } catch (Exception e) {
+      throw new DynamicMetadataException("Invalid dynamic phone metadata: " + e.getMessage(), e);
+    }
+    for (PhoneMetadata phoneMetadata : phoneMetadatas.getMetadataList()) {
+      metadataSource.acceptDynamicMetadata(phoneMetadata);
+    }
+  }
 }

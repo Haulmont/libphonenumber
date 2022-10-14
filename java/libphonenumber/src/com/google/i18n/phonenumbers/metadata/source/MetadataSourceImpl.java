@@ -69,4 +69,9 @@ public final class MetadataSourceImpl implements MetadataSource {
         .getOrBootstrap(phoneMetadataFileNameProvider.getFor(regionCode))
         .getMetadataBy(regionCode);
   }
+
+  @Override
+  public void acceptDynamicMetadata(PhoneMetadata phoneMetadata) {
+    bootstrappingGuard.acceptDynamicMetadata(phoneMetadata);
+  }
 }

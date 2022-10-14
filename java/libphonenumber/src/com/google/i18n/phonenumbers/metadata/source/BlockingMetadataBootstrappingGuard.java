@@ -75,4 +75,9 @@ final class BlockingMetadataBootstrappingGuard<T extends MetadataContainer>
       throw new IllegalStateException("Failed to read file " + phoneMetadataFile, e);
     }
   }
+
+  @Override
+  public void acceptDynamicMetadata(PhoneMetadata phoneMetadata) {
+    metadataContainer.accept(phoneMetadata);
+  }
 }

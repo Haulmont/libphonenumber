@@ -16,6 +16,8 @@
 
 package com.google.i18n.phonenumbers.metadata.source;
 
+import com.google.i18n.phonenumbers.Phonemetadata;
+
 /**
  * Guard that ensures that metadata bootstrapping process (loading and parsing) is triggered only
  * once per metadata file.
@@ -32,4 +34,10 @@ public interface MetadataBootstrappingGuard<T extends MetadataContainer> {
    * @return guarded {@link MetadataContainer}
    */
   T getOrBootstrap(String phoneMetadataFile);
+
+  /**
+   * Adds {@link Phonemetadata.PhoneMetadata} to guarded {@link MetadataContainer}.
+   * @param phoneMetadata phone metadata to store
+   */
+  void acceptDynamicMetadata(Phonemetadata.PhoneMetadata phoneMetadata);
 }
