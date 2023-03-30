@@ -5893,20 +5893,21 @@
         <exampleNumber>2123456789</exampleNumber>
         <nationalNumberPattern>
           2(?:
-            [15]\d{3}|
-            7(?:
-              2(?:
-                0[23]|
-                1[2357]|
-                [23][245]|
-                4[3-5]
-              )|
-              3(?:
-                06|
-                1[69]|
-                [2-6]7
-              )
-            )
+          [15]\d{3}|
+          7(?:
+          2(?:
+          0[23]|
+          1[2357]|
+          2[245]|
+          3[45]|
+          4[3-5]
+          )|
+          3(?:
+          06|
+          1[69]|
+          [2-6]7
+          )
+          )
           )\d{5}
         </nationalNumberPattern>
       </fixedLine>
@@ -5918,16 +5919,7 @@
       <mobile>
         <possibleLengths national="10"/>
         <exampleNumber>0123456789</exampleNumber>
-        <nationalNumberPattern>
-          0704[0-7]\d{5}|
-          0(?:
-            [15]\d\d|
-            7(?:
-              0[0-37-9]|
-              [4-9][7-9]
-            )
-          )\d{6}
-        </nationalNumberPattern>
+        <nationalNumberPattern>0[157]\d{8}</nationalNumberPattern>
       </mobile>
     </territory>
 
