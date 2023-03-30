@@ -590,7 +590,8 @@ Prefix          ; Length ; Type            ; Tariff        ; Operator           
 726008          ; 9      ; MOBILE          ; STANDARD_RATE ; "globaltelefoni"            ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 726009          ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 72601           ; 9      ; MOBILE          ; STANDARD_RATE ; "telavox"                   ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
-7260[2-57-9]    ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
+7260[29]        ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
+7260[3-578]     ; 9      ; MOBILE          ; STANDARD_RATE ; "tele2"                     ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 72606           ; 9      ; MOBILE          ; STANDARD_RATE ; "tele2"                     ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; IR21
 726[1-3]        ; 9      ; MOBILE          ; STANDARD_RATE ; "globetouch"                ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 7264[01]        ; 9      ; MOBILE          ; STANDARD_RATE ; "spirius"                   ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
@@ -623,10 +624,11 @@ Prefix          ; Length ; Type            ; Tariff        ; Operator           
 727512          ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 72751[347-9]    ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
 72751[56]       ; 9      ; MOBILE          ; STANDARD_RATE ; "fink_telecom"              ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
-7275[27-9]      ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
+7275[279]       ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
 72753           ; 9      ; MOBILE          ; STANDARD_RATE ; "netmore"                   ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 72754           ; 9      ; MOBILE          ; STANDARD_RATE ; "telenor"                   ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; IR21
 7275[56]        ; 9      ; MOBILE          ; STANDARD_RATE ; "fink_telecom"              ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
+72758           ; 9      ; MOBILE          ; STANDARD_RATE ; "lancelot"                  ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; IR21
 727[6-8]        ; 9      ; MOBILE          ; STANDARD_RATE ; "lycamobile"                ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 7279            ; 9      ; MOBILE          ; STANDARD_RATE ; "telenor"                   ; "mobile_etc_2/3/2/2"     ; "SE"
 7280            ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
@@ -691,7 +693,7 @@ Prefix          ; Length ; Type            ; Tariff        ; Operator           
 73451           ; 9      ; MOBILE          ; STANDARD_RATE ; "cellip"                    ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 73452[0-57-9]   ; 9      ; MOBILE          ; STANDARD_RATE ; "soatso_ab"                 ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 734526          ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
-73453           ; 9      ; MOBILE          ; STANDARD_RATE ;                             ; "mobile_etc_2/3/2/2"     ; "SE"
+73453           ; 9      ; MOBILE          ; STANDARD_RATE ; "telia"                     ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; IR21
 73454           ; 9      ; MOBILE          ; STANDARD_RATE ; "tele2"                     ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 73455           ; 9      ; MOBILE          ; STANDARD_RATE ; "viatel"                    ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT
 73456           ; 9      ; MOBILE          ; STANDARD_RATE ; "svea_billing_system"       ; "mobile_etc_2/3/2/2"     ; "SE"    ;                            ;                            ; GOVERNMENT

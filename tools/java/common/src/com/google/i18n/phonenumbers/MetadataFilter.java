@@ -80,7 +80,6 @@ final class MetadataFilter {
       "nationalPrefixTransformRule",
       "sameMobileAndFixedLinePattern",
       "mainCountryForCode",
-      "leadingZeroPossible",
       "mobileNumberPortableRegion"));
 
   private final TreeMap<String, TreeSet<String>> blacklist;
@@ -194,9 +193,6 @@ final class MetadataFilter {
     }
     if (shouldDrop("mainCountryForCode")) {
       metadata.clearMainCountryForCode();
-    }
-    if (shouldDrop("leadingZeroPossible")) {
-      metadata.clearLeadingZeroPossible();
     }
     if (shouldDrop("mobileNumberPortableRegion")) {
       metadata.clearMobileNumberPortableRegion();
