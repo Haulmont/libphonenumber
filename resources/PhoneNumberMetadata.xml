@@ -3636,11 +3636,17 @@
           <leadingDigits>4</leadingDigits>
           <format>$1 $2 $3 $4</format>
         </numberFormat>
+        <numberFormat pattern="(\d{2})(\d{5})(\d{6})" nationalPrefixFormattingRule="$NP$FG">
+          <leadingDigits>77000</leadingDigits>
+          <format>$1 $2 $3</format>
+          <intlFormat>$1 $2$3</intlFormat>
+        </numberFormat>
       </availableFormats>
       <generalDesc>
         <nationalNumberPattern>
           4\d{8}|
-          [1-9]\d{7}
+          [1-9]\d{7}|
+          77000\d{8}
         </nationalNumberPattern>
       </generalDesc>
       <fixedLine>
@@ -3661,9 +3667,12 @@
         </nationalNumberPattern>
       </fixedLine>
       <mobile>
-        <possibleLengths national="9"/>
+        <possibleLengths national="9,13"/>
         <exampleNumber>470123456</exampleNumber>
-        <nationalNumberPattern>4[5-9]\d{7}</nationalNumberPattern>
+        <nationalNumberPattern>
+          4[5-9]\d{7}|
+          77000\d{8}
+        </nationalNumberPattern>
       </mobile>
       <tollFree>
         <possibleLengths national="8"/>
@@ -3679,10 +3688,19 @@
               2[0-57]|
               3[04-7]|
               44|
-              6[4-69]|
+              6[569]|
               7[0579]
             )|
-            90\d\d
+            90(?:
+              0[0-8]|
+              1[36]|
+              2[0-3568]|
+              3[0-689]|
+              [47][2-68]|
+              5[1-68]|
+              6[0-378]|
+              9[34679]
+            )
           )\d{4}
         </nationalNumberPattern>
       </premiumRate>
