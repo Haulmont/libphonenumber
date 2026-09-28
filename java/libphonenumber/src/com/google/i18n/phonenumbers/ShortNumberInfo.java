@@ -461,8 +461,9 @@ public class ShortNumberInfo {
 
   /**
    * Given a valid short number, determines whether it is carrier-specific (however, nothing is
-   * implied about its validity). If it is important that the number is valid, then its validity
-   * must first be checked using {@link #isValidShortNumber} or
+   * implied about its validity). Carrier-specific numbers may connect to a different end-point, or
+   * not connect at all, depending on the user's carrier. If it is important that the number is
+   * valid, then its validity must first be checked using {@link #isValidShortNumber} or
    * {@link #isValidShortNumberForRegion}.
    *
    * @param number  the valid short number to check

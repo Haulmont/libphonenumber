@@ -16,12 +16,11 @@
 
 package com.google.i18n.phonenumbers;
 
-import junit.framework.TestCase;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import junit.framework.TestCase;
 
 /**
  * Tests for the output of the JSON metadata producer.
